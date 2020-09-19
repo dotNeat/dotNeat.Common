@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.IComponent">
+    <Position X="10.25" Y="1.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\IComponent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.IComponent&lt;TComponent&gt;">
+    <Position X="12.75" Y="3.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\IComponent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.IComposite">
+    <Position X="2" Y="3.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAABAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\IComposite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.IComposite&lt;TComponent&gt;">
+    <Position X="5" Y="8.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAABAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\IComposite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.IEntityComposite&lt;TComposite, TComponent, TComponentID&gt;">
+    <Position X="4.5" Y="10.75" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\IComposite.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.ILeaf">
+    <Position X="18.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\ILeaf.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="dotNeat.Common.Patterns.Structural.Composite.ILeaf&lt;TLeaf, TComponent&gt;">
+    <Position X="15.5" Y="10.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\ILeaf.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
