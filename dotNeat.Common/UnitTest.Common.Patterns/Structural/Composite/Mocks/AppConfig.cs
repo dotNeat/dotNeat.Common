@@ -36,12 +36,27 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         }
     }
 
-    public class AppValueB
-        :ConfigValue<AppConfig.AppSettings,string>
+    public class AppValue
+        : ConfigValue<Enum,string>
     {
-        public AppValueB(string value) 
-            : base(AppConfig.AppSettings.AppValueB,value)
+        public AppValue(Enum valuekey, string value) 
+            : base(valuekey,value)
         {
         }
+    }
+
+    public class AppSectionA
+        : ConfigSection<AppConfig.AppSettings, AppSectionA.SectionKeys>
+    {
+        public enum SectionKeys
+        {
+            AppValue1,
+            AppValue2,
+        }
+        public AppSectionA() 
+            : base(AppConfig.AppSettings.AppSectionA)
+        {
+        }
+
     }
 }
