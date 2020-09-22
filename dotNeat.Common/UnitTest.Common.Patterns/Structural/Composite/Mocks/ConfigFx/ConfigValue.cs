@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-using dotNeat.Common.Patterns;
 using dotNeat.Common.Patterns.Structural.Composite;
 
 namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
 {
-    public class ConfigValue<TID, TValue> 
+    public class ConfigValue<TValue> 
         : Config
-        , IEntity<TID>
-        , ILeaf<ConfigValue<TID, TValue>, Config>
-        where TID : IComparable
+        , ILeaf<ConfigValue<TValue>, Config>
     {
-        private readonly TID _configID;
 
-        public ConfigValue(TID id) 
+        public ConfigValue(Enum id) 
             : this(id, default(TValue))
         {
         }
 
-        public ConfigValue(TID id, TValue value) 
+        public ConfigValue(Enum id, TValue value) 
+            : base(id)
         {
-            this._configID = id;
             this.Value = value;
         }
 
-        public TID ID => this._configID;
-
-        object IEntity.ID => this.ID;
 
         public TValue Value {get;set;}
 
@@ -39,6 +33,11 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         public override IEnumerable<Config> GetComponents()
         {
             return Array.Empty<Config>();
+        }
+
+        public override void AppendToStringBuilder(StringBuilder stringBuilder,string indentation)
+        {
+            stringBuilder.AppendLine($"{indentation}{this.ID} : {this.Value.ToString()}");
         }
     }
 }

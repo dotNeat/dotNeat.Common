@@ -3,43 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 using dotNeat.Common.Patterns;
 using dotNeat.Common.Patterns.Structural.Composite;
 
-using NuGet.Frameworks;
-
 namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
 {
-    public class ConfigSection<TID, TComponentID> 
+    public class ConfigSection 
         : Config
-        , IEntity<TID>
-        , IEntityComposite<ConfigSection<TID, TComponentID>, Config, TComponentID>
-        where TID : IComparable //IEquatable<TID>
-        where TComponentID : IComparable
+        , IEntityComposite<ConfigSection, Config, Enum>
     {
-        private readonly TID _configID;
-        private readonly IDictionary<TComponentID, Config> _childComponents;
+        private readonly IDictionary<Enum, Config> _childComponents = new Dictionary<Enum, Config>();
 
-        public ConfigSection(TID configID) 
+        public ConfigSection() 
+            : base()
         {
-            this._configID = configID;
-
-            Type childComponentsIDType = typeof(TComponentID);
-            if(childComponentsIDType.IsEnum)
-            {
-                int capacity = Enum.GetValues(childComponentsIDType).Length;
-                _childComponents = new Dictionary<TComponentID,Config>(capacity);
-            }
-            else
-            {
-                _childComponents = new Dictionary<TComponentID,Config>();
-            }
         }
 
-        public TID ID => this._configID;
-
-        object IEntity.ID => this.ID;
+        public ConfigSection(Enum id) 
+            : base(id)
+        {
+        }
 
         public override IEnumerable<Config> GetComponents()
         {
@@ -51,22 +36,20 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             return true;
         }
 
-        public IReadOnlyCollection<TComponentID> GetComponentIDs()
+        public IReadOnlyCollection<Enum> GetComponentIDs()
         {
-            return (IReadOnlyCollection<TComponentID>)this._childComponents.Keys;
+            return (IReadOnlyCollection<Enum>)this._childComponents.Keys;
         }
 
         public IComposite<Config> Add(Config component)
         {
-            var entity = this.EnsureEntityLikeComponent(component);
-            this._childComponents[entity.ID] = component;
+            this._childComponents[component.ID] = component;
             return this;
         }
 
         public IComposite<Config> Remove(Config component)
         {
-            var entity = this.EnsureEntityLikeComponent(component);
-            this._childComponents.Remove(entity.ID);
+            this._childComponents.Remove(component.ID);
             return this;
         }
 
@@ -96,25 +79,23 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             return this._childComponents.Values.GetEnumerator();
         }
 
-        public void Add(TComponentID key, Config value)
+        public void Add(Enum key, Config value)
         {
-            Debug.Assert((value as IEntity<TComponentID>)  != null, $"The {nameof(value)} must be an {typeof(IEntity<TComponentID>).FullName}");
-            Debug.Assert((value as IEntity<TComponentID>).ID.CompareTo(key) == 0, $"The {nameof(value)} ID must match as the {nameof(key)}");
-
+            this.EnsureKeyMatch(key, value);
             this._childComponents.Add(key, value);
         }
 
-        public bool ContainsKey(TComponentID key)
+        public bool ContainsKey(Enum key)
         {
             return this._childComponents.ContainsKey(key);
         }
 
-        public bool Remove(TComponentID key)
+        public bool Remove(Enum key)
         {
             return this._childComponents.Remove(key);
         }
 
-        public bool TryGetValue(TComponentID key,[MaybeNullWhen(false)] out Config value)
+        public bool TryGetValue(Enum key,[MaybeNullWhen(false)] out Config value)
         {
             bool result =  this._childComponents.TryGetValue(key, out value);
             if(result)
@@ -124,13 +105,13 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             return result;
         }
 
-        public Config this[TComponentID key] { get => this._childComponents[key]; set => this._childComponents[key] = value; }
+        public Config this[Enum key] { get => this._childComponents[key]; set => this._childComponents[key] = value; }
 
-        public ICollection<TComponentID> Keys => this._childComponents.Keys;
+        public ICollection<Enum> Keys => this._childComponents.Keys;
 
         public ICollection<Config> Values => this._childComponents.Values;
 
-        public void Add(KeyValuePair<TComponentID,Config> item)
+        public void Add(KeyValuePair<Enum, Config> item)
         {
             this.EnsureKeyMatch(item.Key, item.Value);
             this._childComponents.Add(item);
@@ -141,17 +122,17 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             this._childComponents.Clear();
         }
 
-        public bool Contains(KeyValuePair<TComponentID,Config> item)
+        public bool Contains(KeyValuePair<Enum,Config> item)
         {
             return this._childComponents.Contains(item);
         }
 
-        public void CopyTo(KeyValuePair<TComponentID,Config>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<Enum,Config>[] array, int arrayIndex)
         {
             this._childComponents.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(KeyValuePair<TComponentID,Config> item)
+        public bool Remove(KeyValuePair<Enum,Config> item)
         {
             this.EnsureKeyMatch(item.Key, item.Value);
             return this._childComponents.Remove(item);
@@ -161,7 +142,7 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
 
         public bool IsReadOnly => false;
 
-        IEnumerator<KeyValuePair<TComponentID,Config>> IEnumerable<KeyValuePair<TComponentID,Config>>.GetEnumerator()
+        IEnumerator<KeyValuePair<Enum,Config>> IEnumerable<KeyValuePair<Enum,Config>>.GetEnumerator()
         {
             return this._childComponents.GetEnumerator();
         }
@@ -171,27 +152,22 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             return this._childComponents.GetEnumerator();
         }
 
-        private IEntity<TComponentID> EnsureEntityLikeComponent(Config component)
-        {
-            var entity = component as IEntity<TComponentID>;
-            Debug.Assert(entity != null, $"The {nameof(component)} must be an {typeof(IEntity<TComponentID>).FullName}");
-
-            if(entity == null)
-            {
-                throw new ArgumentException($"Provided {nameof(component)} must be an IEntity!");
-            }
-
-            return entity;
-        }
-
-        private void EnsureKeyMatch(TComponentID key, Config component)
+        private void EnsureKeyMatch(Enum key, Config component)
         {
             if (component != null)
             {
-                Debug.Assert((component as IEntity<TComponentID>)  != null, $"The {nameof(component)} must be an {typeof(IEntity<TComponentID>).FullName}");
-                Debug.Assert((component as IEntity<TComponentID>).ID.CompareTo(key) == 0, $"The {nameof(component)} ID must match as the {nameof(key)}");
+                Debug.Assert(key.GetType().FullName == component.ID.GetType().FullName, $"The {nameof(component.ID)} type must match the {nameof(key)} type.");
+                Debug.Assert(key == component.ID, $"The {nameof(component.ID)} must match the {nameof(key)}.");
             }
         }
 
+        public override void AppendToStringBuilder(StringBuilder stringBuilder,string indentation)
+        {
+            stringBuilder.AppendLine($"{indentation}{this.ID} :");
+            foreach(Config component in this.GetComponents())
+            {
+                component.AppendToStringBuilder(stringBuilder, indentation + Config.SingleIndent);
+            }
+        }
     }
 }

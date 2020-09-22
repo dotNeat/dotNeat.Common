@@ -1,17 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppConfig">
-    <Position X="7.75" Y="2.5" Width="3.75" />
+    <Position X="7.25" Y="2.75" Width="4.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <NestedTypes>
-      <Enum Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppConfig.AppConfigID">
+      <Enum Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppConfig.AppSettings">
         <TypeIdentifier>
           <NewMemberFileName>Structural\Composite\Mocks\AppConfig.cs</NewMemberFileName>
         </TypeIdentifier>
       </Enum>
-      <Enum Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppConfig.AppSettings">
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\Mocks\AppConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppValueA">
+    <Position X="17.25" Y="9.75" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\Mocks\AppConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppValue">
+    <Position X="7" Y="9.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\Mocks\AppConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppSectionB">
+    <Position X="15.25" Y="3" Width="5.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.AppSectionB.SectionKeys">
         <TypeIdentifier>
           <NewMemberFileName>Structural\Composite\Mocks\AppConfig.cs</NewMemberFileName>
         </TypeIdentifier>

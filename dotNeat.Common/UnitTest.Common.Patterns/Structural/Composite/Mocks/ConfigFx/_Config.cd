@@ -1,26 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.Config">
-    <Position X="7" Y="3.25" Width="5" />
+    <Position X="8.5" Y="1.75" Width="4.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.Config.Identity">
+        <TypeIdentifier>
+          <NewMemberFileName>Structural\Composite\Mocks\ConfigFx\Config.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIAAAAAAgAQAAgAAAAAAAIQAAAAAAAAAA=</HashCode>
-      <FileName>Structural\Composite\Mocks\Config.cs</FileName>
+      <FileName>Structural\Composite\Mocks\ConfigFx\Config.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.ConfigSection&lt;TID, TComponentID&gt;">
-    <Position X="3" Y="7.25" Width="6" />
+  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.ConfigSection">
+    <Position X="3" Y="7.75" Width="8" />
     <TypeIdentifier>
-      <HashCode>CAIAAAAAAAANgBISCQAABAQgAAAABAAEAAAoAAhQIQE=</HashCode>
-      <FileName>Structural\Composite\Mocks\ConfigSection.cs</FileName>
+      <HashCode>CAIAAAAAAAANABISCAIABAQgAAAABAAEAAAgAABQIQA=</HashCode>
+      <FileName>Structural\Composite\Mocks\ConfigFx\ConfigSection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.ConfigValue&lt;TID, TValue&gt;">
-    <Position X="10.75" Y="7.25" Width="5.5" />
+  <Class Name="UnitTest.Common.Patterns.Structural.Composite.Mocks.ConfigValue&lt;TValue&gt;">
+    <Position X="12" Y="7.75" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIgAAAAQAAAAAgAAAAAAAAAAAgAAAAAAE=</HashCode>
-      <FileName>Structural\Composite\Mocks\ConfigValue.cs</FileName>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Structural\Composite\Mocks\ConfigFx\ConfigValue.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

@@ -1,43 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
 {
 
     public class AppConfig
-        :ConfigSection<AppConfig.AppConfigID, AppConfig.AppSettings>
+        : ConfigSection
     {
-        public enum AppConfigID
-        {
-            AppConfigRoot,
-        }
-
         public enum AppSettings
         {
-            AppValueA,
-            AppValueB,
+            SensorID,
+            SensorTag,
+            SensorSensitivity,
             AppSectionA,
             AppSectionB,
         }
 
-        public AppConfig() 
-            : base(AppConfigID.AppConfigRoot)
+        public AppConfig()
         {
+            // build default configuration:
+            this.SensorID = new AppValueA(1);
+            this.SensorTag = new AppValue(AppSettings.SensorTag, "Motion sensor");
+            this.SensorSensitivity = new ConfigValue<double>(AppSettings.SensorSensitivity, 99.9);
         }
+
+        public AppValueA SensorID 
+        {
+            get {return this[AppSettings.SensorID] as AppValueA; }
+            set { this[AppSettings.SensorID] = value;}
+        }
+        public AppValue SensorTag 
+        {
+            get {return this[AppSettings.SensorTag] as AppValue; }
+            set { this[AppSettings.SensorTag] = value;}
+        }
+        public ConfigValue<double> SensorSensitivity 
+        {
+            get {return this[AppSettings.SensorSensitivity] as ConfigValue<double>; }
+            set { this[AppSettings.SensorSensitivity] = value;}
+        }
+
+        public AppSectionA SectionA => this[AppSettings.AppSectionA] as AppSectionA;
+        public AppSectionB SectionB => this[AppSettings.AppSectionB] as AppSectionB;
     }
 
     public class AppValueA
-        :ConfigValue<AppConfig.AppSettings,int>
+        :ConfigValue<int>
     {
         public AppValueA(int value) 
-            : base(AppConfig.AppSettings.AppValueA,value)
+            : base(AppConfig.AppSettings.SensorID,value)
         {
         }
     }
 
     public class AppValue
-        : ConfigValue<Enum,string>
+        : ConfigValue<string>
     {
         public AppValue(Enum valuekey, string value) 
             : base(valuekey,value)
@@ -46,7 +62,7 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
     }
 
     public class AppSectionA
-        : ConfigSection<AppConfig.AppSettings, AppSectionA.SectionKeys>
+        : ConfigSection
     {
         public enum SectionKeys
         {
@@ -57,6 +73,14 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             : base(AppConfig.AppSettings.AppSectionA)
         {
         }
+    }
 
+    public class AppSectionB
+        : ConfigSection
+    {
+        public AppSectionB() 
+            : base(AppConfig.AppSettings.AppSectionB)
+        {
+        }
     }
 }
