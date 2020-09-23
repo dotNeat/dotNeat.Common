@@ -6,48 +6,59 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
     public class AppConfig
         : ConfigSection
     {
-        public enum AppSettings
+        public enum AppConfigRoot
         {
-            SensorID,
-            SensorTag,
-            SensorSensitivity,
-            AppSectionA,
+            Sensor,
+        }
+
+        public enum Sensor
+        {
+            ID,
+            Tag,
+            Sensitivity,
+            Dimensions,
             AppSectionB,
         }
 
-        public AppConfig()
+        public AppConfig() 
+            : base(AppConfigRoot.Sensor)
         {
             // build default configuration:
             this.SensorID = new AppValueA(1);
-            this.SensorTag = new AppValue(AppSettings.SensorTag, "Motion sensor");
-            this.SensorSensitivity = new ConfigValue<double>(AppSettings.SensorSensitivity, 99.9);
+            this.SensorTag = new AppValue(Sensor.Tag, "Motion sensor");
+            this.SensorSensitivity = new ConfigValue<double>(Sensor.Sensitivity, 99.9);
+            this.SensorDimentions = new Dimensions() { Height = 0.01, Length = 0.02, Width = 0.03};
         }
 
         public AppValueA SensorID 
         {
-            get {return this[AppSettings.SensorID] as AppValueA; }
-            set { this[AppSettings.SensorID] = value;}
+            get {return this[Sensor.ID] as AppValueA; }
+            set { this[Sensor.ID] = value;}
         }
         public AppValue SensorTag 
         {
-            get {return this[AppSettings.SensorTag] as AppValue; }
-            set { this[AppSettings.SensorTag] = value;}
+            get {return this[Sensor.Tag] as AppValue; }
+            set { this[Sensor.Tag] = value;}
         }
         public ConfigValue<double> SensorSensitivity 
         {
-            get {return this[AppSettings.SensorSensitivity] as ConfigValue<double>; }
-            set { this[AppSettings.SensorSensitivity] = value;}
+            get {return this[Sensor.Sensitivity] as ConfigValue<double>; }
+            set { this[Sensor.Sensitivity] = value;}
         }
 
-        public AppSectionA SectionA => this[AppSettings.AppSectionA] as AppSectionA;
-        public AppSectionB SectionB => this[AppSettings.AppSectionB] as AppSectionB;
+        public Dimensions SensorDimentions //=> this[SensorAttributes.SensorDimensions] as Dimensions;
+        {
+            get {return this[Sensor.Dimensions] as Dimensions; }
+            set { this[Sensor.Dimensions] = value;}
+        }
+        public AppSectionB SectionB => this[Sensor.AppSectionB] as AppSectionB;
     }
 
     public class AppValueA
         :ConfigValue<int>
     {
         public AppValueA(int value) 
-            : base(AppConfig.AppSettings.SensorID,value)
+            : base(AppConfig.Sensor.ID,value)
         {
         }
     }
@@ -61,17 +72,45 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         }
     }
 
-    public class AppSectionA
+    public class Dimensions
         : ConfigSection
     {
-        public enum SectionKeys
+        public enum Dimension
         {
-            AppValue1,
-            AppValue2,
+            Length,
+            Width,
+            Height,
         }
-        public AppSectionA() 
-            : base(AppConfig.AppSettings.AppSectionA)
+
+        public Dimensions()
+            : this(0.0, 0.0, 0.0)
         {
+        }
+
+        public Dimensions(double height, double length, double width) 
+            : base(AppConfig.Sensor.Dimensions)
+        {
+            this.Add(new ConfigValue<double>(Dimension.Height, height));
+            this.Add(new ConfigValue<double>(Dimension.Length, length));
+            this.Add(new ConfigValue<double>(Dimension.Width, width));
+        }
+
+        public double Height
+        {
+            get { return ((ConfigValue<double>) this[Dimension.Height]).Value; }
+            set { ((ConfigValue<double>) this[Dimension.Height]).Value = value; }
+        }
+
+        public double Length
+        {
+            get { return ((ConfigValue<double>) this[Dimension.Length]).Value; }
+            set { ((ConfigValue<double>) this[Dimension.Length]).Value = value; }
+        }
+
+        public double Width
+        {
+            get { return ((ConfigValue<double>) this[Dimension.Width]).Value; }
+            set { ((ConfigValue<double>) this[Dimension.Width]).Value = value; }
         }
     }
 
@@ -79,7 +118,7 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         : ConfigSection
     {
         public AppSectionB() 
-            : base(AppConfig.AppSettings.AppSectionB)
+            : base(AppConfig.Sensor.AppSectionB)
         {
         }
     }
