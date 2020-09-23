@@ -24,15 +24,15 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
             : base(AppConfigRoot.Sensor)
         {
             // build default configuration:
-            this.SensorID = new AppValueA(1);
+            this.SensorID = new SensorIdentity(1);
             this.SensorTag = new AppValue(Sensor.Tag, "Motion sensor");
             this.SensorSensitivity = new ConfigValue<double>(Sensor.Sensitivity, 99.9);
             this.SensorDimentions = new Dimensions() { Height = 0.01, Length = 0.02, Width = 0.03};
         }
 
-        public AppValueA SensorID 
+        public SensorIdentity SensorID 
         {
-            get {return this[Sensor.ID] as AppValueA; }
+            get {return this[Sensor.ID] as SensorIdentity; }
             set { this[Sensor.ID] = value;}
         }
         public AppValue SensorTag 
@@ -54,10 +54,10 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         public AppSectionB SectionB => this[Sensor.AppSectionB] as AppSectionB;
     }
 
-    public class AppValueA
+    public class SensorIdentity
         :ConfigValue<int>
     {
-        public AppValueA(int value) 
+        public SensorIdentity(int value) 
             : base(AppConfig.Sensor.ID,value)
         {
         }
