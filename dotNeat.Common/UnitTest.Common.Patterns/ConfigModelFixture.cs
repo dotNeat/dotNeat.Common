@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,14 +12,36 @@ namespace UnitTest.Common.Patterns
     [TestCategory(nameof(ConfigModelFixture))]
     public class ConfigModelFixture
     {
+        public enum SensorExtension
+        {
+            Location,
+        }
+        private static void Present(AppConfig appConfig, string title = null)
+        {
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                Console.WriteLine(title);
+            }
+            Console.WriteLine("==================================");
+
+            string configStringRendering = appConfig.RenderAsString();
+            Console.WriteLine(configStringRendering);
+            //Trace.WriteLine(configStringRendering);
+
+            Console.WriteLine();
+        }
+
         [TestMethod]
         public void BasicTest()
         {
             AppConfig appConfig = new AppConfig();
 
-            string configStringRendering = appConfig.RenderAsString();
-            Console.WriteLine(configStringRendering);
-            Trace.WriteLine(configStringRendering);
+            Present(appConfig, "Defined Config");
+
+            var configExtension = new ConfigValue<Point>(SensorExtension.Location, new Point(200, 300));
+            appConfig.Add(configExtension);
+ 
+            Present(appConfig, "Extended Config");
         }
 
         [TestMethod]
