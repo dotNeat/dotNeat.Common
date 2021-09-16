@@ -2,6 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 
+using dotNeat.Common.Patterns;
+using dotNeat.Common.Patterns.Structural.Composite;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using UnitTest.Common.Patterns.Structural.Composite.Mocks;
@@ -31,21 +34,50 @@ namespace UnitTest.Common.Patterns
             Console.WriteLine();
         }
 
+        private static void PresentComponentsIDs(IComponent component, string indentation = "")
+        {
+            IEntity entity = component as IEntity;
+            if(entity == null)
+            {
+                return;
+            }
+
+            indentation += "  ";
+            string id = indentation + entity.ID;
+            Console.WriteLine(id);
+            Trace.WriteLine(id);
+
+            foreach(var child in component.GetComponents())
+            {
+                PresentComponentsIDs(child, indentation);
+            }
+        }
+
         [TestMethod]
         public void BasicTest()
         {
             AppConfig appConfig = new AppConfig();
 
             Present(appConfig, "Defined Config");
+            Console.WriteLine("Structure:");
+            Trace.WriteLine("Structure");
+            PresentComponentsIDs(appConfig);
+            Console.WriteLine();
+            Trace.WriteLine(string.Empty);
 
             var configExtension = new ConfigValue<Point>(SensorExtension.Location, new Point(200, 300));
             appConfig.Add(configExtension);
  
             Present(appConfig, "Extended Config");
+            Console.WriteLine("Structure:");
+            Trace.WriteLine("Structure");
+            PresentComponentsIDs(appConfig);
+            Console.WriteLine();
+            Trace.WriteLine(string.Empty);
         }
 
         [TestMethod]
-        public void ShowComponentIDs()
+        public void ShowChildComponentIDs()
         {
             AppConfig appConfig = new AppConfig();
 
@@ -54,6 +86,14 @@ namespace UnitTest.Common.Patterns
                 Console.WriteLine(id);
                 Trace.WriteLine(id);
             }
+        }
+
+        [TestMethod]
+        public void ShowComponentDefinitionStructure()
+        {
+            AppConfig appConfig = new AppConfig();
+
+            PresentComponentsIDs(appConfig);
         }
     }
 }
