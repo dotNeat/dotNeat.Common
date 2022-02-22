@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+
+  <PropertyGroup>
+      <LangVersion>latest</LangVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Tree\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tree\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dotNeat.Common.Patterns\dotNeat.Common.Patterns.csproj" />
+  </ItemGroup>
+</Project>
