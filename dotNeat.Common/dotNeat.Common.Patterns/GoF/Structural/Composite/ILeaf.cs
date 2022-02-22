@@ -1,4 +1,4 @@
-﻿namespace dotNeat.Common.Patterns.Structural.Composite
+﻿namespace dotNeat.Common.Patterns.GoF.Structural.Composite
 {
     public interface ILeaf
         : IComponent

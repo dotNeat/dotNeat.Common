@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
+﻿namespace UnitTest.Common.Patterns.GoF.Structural.Composite.Mocks
 {
+    using System;
 
     public class AppConfig
         : ConfigSection

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace dotNeat.Common.Patterns.Structural.Composite
+﻿namespace dotNeat.Common.Patterns.GoF.Structural.Composite
 {
+    using System.Collections.Generic;
+
     public interface IComponent
     {
-        IComposite Parent {get;}
+        IComposite Container { get;}
 
         IEnumerable<IComponent> GetComponents();
     }
@@ -13,7 +13,7 @@ namespace dotNeat.Common.Patterns.Structural.Composite
         : IComponent
         where TComponent : IComponent<TComponent>, IComponent
     {
-        new IComposite<TComponent> Parent {get;}
+        new IComposite<TComponent> Container {get;}
 
         new IEnumerable<TComponent> GetComponents();
     }

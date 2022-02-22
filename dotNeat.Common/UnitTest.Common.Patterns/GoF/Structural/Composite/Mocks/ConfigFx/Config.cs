@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using dotNeat.Common.Patterns;
-using dotNeat.Common.Patterns.Structural.Composite;
-
-namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
+﻿namespace UnitTest.Common.Patterns.GoF.Structural.Composite.Mocks
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using dotNeat.Common.Patterns;
+    using dotNeat.Common.Patterns.GoF.Structural.Composite;
+
     public abstract class Config
         : EntityBase<Enum>
         , IComponent<Config>
@@ -27,15 +27,15 @@ namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
         {
         }
 
-        public IComposite<Config> Parent
+        public IComposite<Config> Container
         {
             get;
             protected set;
         }
 
-        public abstract IEnumerable<Config> GetComponents();
+        IComposite IComponent.Container => this.Container;
 
-        IComposite IComponent.Parent => this.Parent;
+        public abstract IEnumerable<Config> GetComponents();
 
         IEnumerable<IComponent> IComponent.GetComponents()
         {

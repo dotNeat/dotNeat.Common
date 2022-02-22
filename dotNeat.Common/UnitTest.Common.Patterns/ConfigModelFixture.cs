@@ -1,16 +1,16 @@
-using System;
-using System.Diagnostics;
-using System.Drawing;
-
-using dotNeat.Common.Patterns;
-using dotNeat.Common.Patterns.Structural.Composite;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using UnitTest.Common.Patterns.Structural.Composite.Mocks;
-
 namespace UnitTest.Common.Patterns
 {
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+
+    using dotNeat.Common.Patterns;
+    using dotNeat.Common.Patterns.GoF.Structural.Composite;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using UnitTest.Common.Patterns.GoF.Structural.Composite.Mocks;
+
     [TestClass]
     [TestCategory(nameof(ConfigModelFixture))]
     public class ConfigModelFixture

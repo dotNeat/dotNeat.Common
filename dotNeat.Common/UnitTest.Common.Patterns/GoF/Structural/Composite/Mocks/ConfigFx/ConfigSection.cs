@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-using dotNeat.Common.Patterns;
-using dotNeat.Common.Patterns.Structural.Composite;
-
-namespace UnitTest.Common.Patterns.Structural.Composite.Mocks
+﻿namespace UnitTest.Common.Patterns.GoF.Structural.Composite.Mocks
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Text;
+
+    using dotNeat.Common.Patterns.GoF.Structural.Composite;
+
     public class ConfigSection 
         : Config
         , IEntityComposite<ConfigSection, Config, Enum>

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace dotNeat.Common.Patterns
+﻿namespace dotNeat.Common.Patterns
 {
+    using System;
+
     public interface IEntity
     {
         object ID { get; }

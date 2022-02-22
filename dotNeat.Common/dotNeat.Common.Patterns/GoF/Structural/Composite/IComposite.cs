@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace dotNeat.Common.Patterns.Structural.Composite
+﻿namespace dotNeat.Common.Patterns.GoF.Structural.Composite
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IComposite 
         : IComponent
     {
