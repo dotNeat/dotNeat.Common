@@ -9,14 +9,14 @@
 
     public interface IEntity<TID>
         : IEntity
-        where TID : IComparable //IEquatable<TID>
+        where TID : IComparable//, IEquatable<TID>
     {
         new TID ID { get; }
     }
 
     public class EntityBase<TID>
         : IEntity<TID>, IEntity
-        where TID : IComparable //IEquatable<TID>
+        where TID : IComparable//, IEquatable<TID>
     {
         private readonly TID _ID;
 
