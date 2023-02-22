@@ -4,7 +4,7 @@
 
     public interface IComponent
     {
-        IComposite Container { get;}
+        IComposite? Container { get;}
 
         IEnumerable<IComponent> GetComponents();
     }
@@ -13,7 +13,7 @@
         : IComponent
         where TComponent : IComponent<TComponent>, IComponent
     {
-        new IComposite<TComponent> Container {get;}
+        new IComposite<TComponent>? Container {get;}
 
         new IEnumerable<TComponent> GetComponents();
     }

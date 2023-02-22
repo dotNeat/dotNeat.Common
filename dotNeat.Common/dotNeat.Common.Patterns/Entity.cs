@@ -18,7 +18,7 @@
         : IEntity<TID>, IEntity
         where TID : IComparable//, IEquatable<TID>
     {
-        private readonly TID _ID;
+        private readonly TID _ID = default(TID);
 
         private EntityBase()
         {

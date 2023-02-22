@@ -22,10 +22,10 @@
         //private readonly ObservableCollection<ICapability> _capabilities = null;
         //private readonly ReadOnlyObservableCollection<ICapability> _readOnlyCapabilities = null;
 
-        protected internal CompositeCapabilitiesHost _container;
-        protected internal readonly Dictionary<Type, List<ICapability>> _capabilityImplementationsByCapability = null;
+        protected internal CompositeCapabilitiesHost? _container;
+        protected internal readonly Dictionary<Type, List<ICapability>>? _capabilityImplementationsByCapability = null;
 
-        public CapabilitiesHost(CompositeCapabilitiesHost container = null)
+        public CapabilitiesHost(CompositeCapabilitiesHost? container = null)
         {
             //_capabilities = new ObservableCollection<ICapability>();
             //_readOnlyCapabilities = new ReadOnlyObservableCollection<Capability>(_capabilities);
@@ -51,7 +51,7 @@
 
         #region IComponent<CapabilitiesHost>
 
-        public IComposite<CapabilitiesHost> Container => this._container;
+        public IComposite<CapabilitiesHost>? Container => this._container;
 
         public IEnumerable<CapabilitiesHost> GetComponents()
         {

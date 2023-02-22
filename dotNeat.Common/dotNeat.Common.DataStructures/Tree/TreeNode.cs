@@ -13,10 +13,10 @@
     public class TreeNode<T> : ITreeNode<T>
         where T : IComparable<T>
     {
-        private T _data = default(T);
-        private ITreeNode<T> _parent = null;
-        private readonly ObservableCollection<ITreeNode<T>> _children = null;
-        private readonly ReadOnlyObservableCollection<ITreeNode<T>> _readOnlyChildren = null;
+        private T? _data = default(T);
+        private ITreeNode<T>? _parent = null;
+        private readonly ObservableCollection<ITreeNode<T>> _children;
+        private readonly ReadOnlyObservableCollection<ITreeNode<T>> _readOnlyChildren;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="TreeNode{T}"/> class from being created.
