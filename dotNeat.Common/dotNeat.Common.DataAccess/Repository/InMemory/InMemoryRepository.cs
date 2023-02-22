@@ -8,7 +8,7 @@
     public class InMemoryRepository<TEntity, TEntityId>
         : ReadOnlyInMemoryRepository<TEntity, TEntityId>
         , IRepository<TEntity, TEntityId>
-        where TEntity : class, IEntity<TEntityId>
+        where TEntity :  IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         private InMemoryRepository()
@@ -22,10 +22,10 @@
         }
 
         public virtual TEntityDerivative Create<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
-            //throw new NotImplementedException();
-            return default;
+            throw new NotImplementedException();
+            //return default(TEntityDerivative);
         }
 
         public IRepository<TEntity, TEntityId> Add(TEntity entity)

@@ -1,5 +1,13 @@
 ﻿namespace dotNeat.Common.DataAccess.Criteria
 {
+    public interface ICompositeCriteria
+        : ICriteria
+    {
+        ICriteria And(ICriteria criteria);
+        ICriteria Or(ICriteria criteria);
+        ICriteria Not(ICriteria criteria);
+    }
+
     public interface ICompositeCriteria<TEntity> 
         : ICriteria<TEntity>
     {

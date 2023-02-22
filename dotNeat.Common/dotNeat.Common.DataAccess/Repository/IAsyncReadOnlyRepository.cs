@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     public interface IAsyncReadOnlyRepository<TEntity, TEntityId>
-        where TEntity : class, IEntity<TEntityId>
+        where TEntity :  IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         Task<bool> ContainsEntityAsync(TEntityId id);
@@ -16,14 +16,14 @@
         Task<long> CountEntitiesAsync();
 
         Task<long> CountEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
 
         Task<long> CountEntitiesAsync(ICriteria<TEntity> entitySpec);
 
         Task<TEntity?> GetEntityAsync(TEntityId id);
 
         Task<IReadOnlyCollection<TEntityDerivative>> GetEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
 
         Task<IReadOnlyCollection<TEntity>> GetEntitiesAsync(ICriteria<TEntity> entitySpec);
 

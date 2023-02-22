@@ -16,13 +16,13 @@
         {
             IQueryable<TEntity> queryable = queryableSeed;
 
-            if (specification.FilterCriteria is not null)
+            if (specification.DataFilterSpec is not null)
             {
                 switch (specification.ExpectedOutcome)
                 {
                     case ISpecification<TEntity>.Outcome.Undetermined:
                     case ISpecification<TEntity>.Outcome.Many:
-                        queryable = queryable.Where(i => specification.FilterCriteria.IsSatisfiedBy(i));
+                        queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
                         break;
                     //TODO: refactore the alternative return object and implement as needed:
                     //case ISpecification<TEntity>.Outcome.NoneOrOne:
@@ -37,19 +37,19 @@
                 }
             }
 
-            if (specification.InclusionSpec is not null 
-                && specification.InclusionSpec.IncludeExpressions.Count > 0
+            if (specification.ExtraDataInclusionSpec is not null 
+                && specification.ExtraDataInclusionSpec.IncludeExpressions.Count > 0
                 )
             {
-                queryable = specification.InclusionSpec.IncludeExpressions.Aggregate(
+                queryable = specification.ExtraDataInclusionSpec.IncludeExpressions.Aggregate(
                     queryable, 
                     (current, includeExpression) => current.Include(includeExpression)
                     );
             }
 
-            if (specification.SortingOrder is not null)
+            if (specification.DataSortingSpec is not null)
             {
-                foreach(var item in specification.SortingOrder.Specifications)
+                foreach(var item in specification.DataSortingSpec.Specifications)
                 {
                     switch (item.SortingDirection)
                     {
@@ -66,11 +66,11 @@
                 }
             }
 
-            if (specification.Pagination is not null)
+            if (specification.PaginationSpec is not null)
             {
                 queryable = queryable
-                    .Skip(Convert.ToInt32(specification.Pagination.PageNumber) - 1)
-                    .Take(Convert.ToInt32(specification.Pagination.PageSize));
+                    .Skip(Convert.ToInt32(specification.PaginationSpec.PageNumber) - 1)
+                    .Take(Convert.ToInt32(specification.PaginationSpec.PageSize));
             }
 
             if (specification.UseSplitQuery)

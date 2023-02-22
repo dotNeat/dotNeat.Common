@@ -7,7 +7,7 @@
     using System.Collections.Generic;
 
     public interface IReadOnlyRepository<TEntity, TEntityId> 
-        where TEntity : class, IEntity<TEntityId>
+        where TEntity :  IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         bool ContainsEntity(TEntityId id);
@@ -15,14 +15,14 @@
         long CountEntities();
 
         long CountEntities<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
 
         long CountEntities(ICriteria<TEntity> entitySpec);
 
         TEntity? GetEntity(TEntityId id);
 
         IReadOnlyCollection<TEntityDerivative> GetEntities<TEntityDerivative>() 
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
 
         IReadOnlyCollection<TEntity> GetEntities(ICriteria<TEntity> entitySpec);
 
@@ -56,7 +56,7 @@
             long pageSize, 
             out long totalPages
             ) 
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
 
         /// <summary>
         /// Gets the entities page.

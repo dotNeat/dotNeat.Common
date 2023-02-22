@@ -13,17 +13,19 @@
     public class TreeNode<T> : ITreeNode<T>
         where T : IComparable<T>
     {
-        private T? _data = default(T);
-        private ITreeNode<T>? _parent = null;
-        private readonly ObservableCollection<ITreeNode<T>> _children;
-        private readonly ReadOnlyObservableCollection<ITreeNode<T>> _readOnlyChildren;
+        private T _data;// = default(T);
+        private TreeNode<T>? _parent = null;
+        private readonly ObservableCollection<TreeNode<T>> _children;
+        private readonly ReadOnlyObservableCollection<TreeNode<T>> _readOnlyChildren;
 
         /// <summary>
         /// Prevents a default instance of the <see cref="TreeNode{T}"/> class from being created.
         /// </summary>
-        private TreeNode()
-        {
-        }
+        //private TreeNode()
+        //{
+        //    _children = new ObservableCollection<TreeNode<T>>();
+        //    _readOnlyChildren = new ReadOnlyObservableCollection<TreeNode<T>>(_children);
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TreeNode{T}"/> class.
@@ -41,8 +43,8 @@
         /// <param name="childData">The child data.</param>
         public TreeNode(T data, IEnumerable<T> childData)
         {
-            _children = new ObservableCollection<ITreeNode<T>>();
-            _readOnlyChildren = new ReadOnlyObservableCollection<ITreeNode<T>>(_children);
+            _children = new ObservableCollection<TreeNode<T>>();
+            _readOnlyChildren = new ReadOnlyObservableCollection<TreeNode<T>>(_children);
 
             _data = data;
             if (childData != null)
@@ -61,8 +63,8 @@
         /// <param name="childNodes">The child nodes.</param>
         public TreeNode(T data, IEnumerable<TreeNode<T>> childNodes)
         {
-            _children = new ObservableCollection<ITreeNode<T>>();
-            _readOnlyChildren = new ReadOnlyObservableCollection<ITreeNode<T>>(_children);
+            _children = new ObservableCollection<TreeNode<T>>();
+            _readOnlyChildren = new ReadOnlyObservableCollection<TreeNode<T>>(_children);
 
             _data = data;
             if (childNodes != null)
@@ -80,8 +82,8 @@
         /// Adds the specified child data.
         /// </summary>
         /// <param name="childData">The child data.</param>
-        /// <returns></returns>
-        public virtual ITreeNode<T> Add(T childData)
+        /// <returns>New TreeNode instance</returns>
+        public virtual TreeNode<T> Add(T childData)
         {
             var newNode = new TreeNode<T>(childData);
             _children.Add(newNode);
@@ -93,23 +95,22 @@
         /// Adds the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
-        /// <returns></returns>
-        public virtual ITreeNode<T> Add(ITreeNode<T> child)
+        /// <returns>This TreeNode instance</returns>
+        public virtual TreeNode<T> Add(TreeNode<T> child)
         {
             _children.Add(child);
-            TreeNode<T> childNode = child as TreeNode<T>;
-            childNode.Parent = this;
-            return child;
+            child.Parent = this;
+            return this;
         }
 
-        public virtual ITreeNode<T> Remove(T childData)
+        public virtual TreeNode<T>? Remove(T childData)
         {
-            TreeNode<T> removedNode = null;
+            TreeNode<T>? removedNode = null;
             foreach (var treeNode in _children)
             {
                 if (treeNode.Data.CompareTo(childData) == 0)
                 {
-                    removedNode = treeNode as TreeNode<T>;
+                    removedNode = treeNode;
                     _children.Remove(removedNode);
                     removedNode.Parent = null;
                     break;
@@ -118,21 +119,20 @@
             return removedNode;
         }
 
-        public virtual ITreeNode<T> Remove(ITreeNode<T> child)
+        public virtual TreeNode<T> Remove(TreeNode<T> child)
         {
-            TreeNode<T> removedNode = null;
+            //TreeNode<T> removedNode = null;
             foreach (var treeNode in _children)
             {
                 if (treeNode == child)
                 {
                     Debug.Assert(treeNode.Data.CompareTo(child.Data) == 0, "data loads of the nodes do not match!");
-                    removedNode = treeNode as TreeNode<T>;
-                    _children.Remove(removedNode);
-                    removedNode.Parent = null;
-                    break;
+                    _children.Remove(treeNode);
+                    treeNode.Parent = null;
+                    return treeNode;
                 }
             }
-            return removedNode;
+            return this;
         }
 
         /// <summary>
@@ -153,7 +153,7 @@
         /// <value>
         /// The parent.
         /// </value>
-        public ITreeNode<T> Parent
+        public TreeNode<T>? Parent
         {
             get { return _parent; }
             private set { _parent = value; }
@@ -165,7 +165,7 @@
         /// <value>
         /// The children.
         /// </value>
-        public ReadOnlyObservableCollection<ITreeNode<T>> Children
+        public ReadOnlyObservableCollection<TreeNode<T>> Children
         {
             get { return _readOnlyChildren; }
         }
@@ -216,7 +216,7 @@
         /// <returns></returns>
         ITreeNode<T> ITreeNode<T>.Add(ITreeNode<T> child)
         {
-            return this.Add(child);
+            return this.Add((TreeNode<T>) child);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@
         /// <returns></returns>
         ITreeNode<T> ITreeNode<T>.Remove(ITreeNode<T> child)
         {
-            return this.Remove(child);
+            return this.Remove((TreeNode<T>) child);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@
         /// <value>
         /// The parent.
         /// </value>
-        ITreeNode<T> ITreeNode<T>.Parent
+        ITreeNode<T>? ITreeNode<T>.Parent
         {
             get { return this.Parent; }
         }

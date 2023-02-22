@@ -11,7 +11,7 @@
 
     public class ReadOnlyInMemoryRepository<TEntity, TEntityId> 
         : IReadOnlyRepository<TEntity, TEntityId>
-        where TEntity : class, IEntity<TEntityId>
+        where TEntity :  IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         protected readonly ConcurrentDictionary<TEntityId, TEntity> _entities = 
@@ -39,7 +39,7 @@
         }
 
         public long CountEntities<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
             return _entities.Values.Where(i => i is TEntityDerivative).Count(); 
         }
@@ -55,11 +55,11 @@
             {
                 return value;
             }
-            return null;
+            return default(TEntity?);
         }
 
         public IReadOnlyCollection<TEntityDerivative> GetEntities<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
             return _entities.Values
                 .Where(i => i is TEntityDerivative)
@@ -103,7 +103,7 @@
             long pageSize,
             out long totalPages
             )
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
             var items = _entities.Values
                 .Where(i => i is TEntityDerivative)

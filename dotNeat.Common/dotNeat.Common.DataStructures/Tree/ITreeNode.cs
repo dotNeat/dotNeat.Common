@@ -12,14 +12,14 @@
         /// Adds the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
-        /// <returns></returns>
+        /// <returns>This ITreeNode instance</returns>
         ITreeNode Add(ITreeNode child);
 
         /// <summary>
         /// Removes the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
-        /// <returns></returns>
+        /// <returns>This ITreeNode instance</returns>
         ITreeNode Remove(ITreeNode child);
 
         /// <summary>
@@ -36,7 +36,7 @@
         /// <value>
         /// The parent.
         /// </value>
-        ITreeNode Parent { get; }
+        ITreeNode? Parent { get; }
     }
 
     /// <summary>
@@ -50,14 +50,14 @@
         /// Adds the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
-        /// <returns></returns>
+        /// <returns>This ITreeNode instance</returns>
         ITreeNode<TData> Add(ITreeNode<TData> child);
 
         /// <summary>
         /// Removes the specified child.
         /// </summary>
         /// <param name="child">The child.</param>
-        /// <returns></returns>
+        /// <returns>This ITreeNode instance</returns>
         ITreeNode<TData> Remove(ITreeNode<TData> child);
 
         /// <summary>
@@ -74,7 +74,7 @@
         /// <value>
         /// The parent.
         /// </value>
-        ITreeNode<TData> Parent { get; }
+        ITreeNode<TData>? Parent { get; }
 
         /// <summary>
         /// Gets or sets the data.

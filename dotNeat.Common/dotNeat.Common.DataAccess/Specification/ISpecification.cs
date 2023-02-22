@@ -7,9 +7,9 @@
         public enum Outcome
         {
             Undetermined,
-            Many,
             NoneOrOne,
             One,
+            Many,
         }
 
         Outcome ExpectedOutcome { get; }
@@ -18,9 +18,9 @@
     public interface ISpecification<TEntity>
         : ISpecification
     {
-        ICriteria<TEntity>? FilterCriteria { get; }
-        ISortingOrder<TEntity>? SortingOrder { get; }
-        IInclusionSpec<TEntity>? InclusionSpec{ get; }
-        IPagination? Pagination { get; }
+        ICriteria<TEntity>? DataFilterSpec { get; }
+        ISortingOrder<TEntity>? DataSortingSpec { get; }
+        IExtraDataInclusion<TEntity>? ExtraDataInclusionSpec{ get; }
+        IPagination? PaginationSpec { get; }
     }
 }

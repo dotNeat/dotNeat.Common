@@ -12,7 +12,9 @@
         {
             EventHandler<DataChangeEventArgs<T>> eh = eventHandler;
             if (eh != null)
+            {
                 eh(obj, eventArgs);
+            }
         }
     }
 }

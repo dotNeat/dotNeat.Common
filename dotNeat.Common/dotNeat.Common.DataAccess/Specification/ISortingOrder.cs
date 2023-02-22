@@ -6,6 +6,26 @@
 
     using static dotNeat.Common.DataAccess.Specification.ISortingOrder;
 
+    public interface ISortingOrder
+    {
+        public enum Direction
+        {
+            Ascending,
+            Descending
+        }
+
+        IReadOnlyCollection<SortingSpecification> Specifications { get; }
+    }
+
+    public interface ISortingOrder<TEntity>
+        : ISortingOrder
+    {
+
+        new IReadOnlyCollection<SortingSpecification<TEntity>> Specifications { get; }
+
+        ISortingOrder<TEntity> Add(SortingSpecification<TEntity> specification);
+    }
+
     public class SortingSpecification
     {
         public SortingSpecification(Direction sortingDirection = Direction.Ascending)
@@ -31,24 +51,4 @@
         public Expression<Func<TEntity, object>> SortByExpression { get; }
     }
 
-    public interface ISortingOrder
-    {
-        public enum Direction
-        {
-            Ascending,
-            Descending
-        }
-
-
-        IReadOnlyCollection<SortingSpecification> Specifications { get; }
-    }
-
-    public interface ISortingOrder<TEntity>
-        : ISortingOrder
-    {
-
-        new IReadOnlyCollection<SortingSpecification<TEntity>> Specifications { get; }
-
-        ISortingOrder<TEntity> Add(SortingSpecification<TEntity> specification);
-    }
 }

@@ -140,13 +140,13 @@
         }
 
         public async Task<long> CountEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
             return await _dbSet.OfType<TEntityDerivative>().LongCountAsync();
         }
 
         public async Task<IReadOnlyCollection<TEntityDerivative>> GetEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative : class, TEntity
+            where TEntityDerivative :  TEntity
         {
             return await _dbSet.OfType<TEntityDerivative>().ToArrayAsync();
         }

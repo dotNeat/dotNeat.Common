@@ -74,7 +74,8 @@
 
         #region ICapable
 
-        public bool Has<TCapability>() where TCapability : ICapability
+        public bool Has<TCapability>() 
+            where TCapability : ICapability
         {
             Type capabilityType = typeof(TCapability);
             return 
@@ -83,7 +84,8 @@
                 ;
         }
 
-        public TCapability[] GetImplementationsOf<TCapability>() where TCapability : class, ICapability
+        public TCapability[] GetImplementationsOf<TCapability>() 
+            where TCapability : class, ICapability
         {
             Type capabilityType = typeof(TCapability);
             List<ICapability> capabilityImplementations = null;

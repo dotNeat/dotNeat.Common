@@ -2,7 +2,8 @@
 {
     using System;
 
-    public class DataEventArgs<T> : EventArgs
+    public class DataEventArgs<T> 
+        : EventArgs
     {
         private readonly T _data;
 

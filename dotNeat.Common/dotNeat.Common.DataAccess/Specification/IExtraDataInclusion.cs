@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    public interface IInclusionSpec<TEntity>
+    public interface IExtraDataInclusion<TEntity>
     {
         IReadOnlyCollection<Expression<Func<TEntity, object>>> IncludeExpressions { get; }
     }

@@ -6,11 +6,11 @@
 
     public interface IRepository<TEntity, TEntityId> 
         : IReadOnlyRepository<TEntity, TEntityId>
-        where TEntity : class, IEntity<TEntityId>
+        where TEntity :  IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         TEntityDerivative Create<TEntityDerivative>() 
-            where TEntityDerivative : class, TEntity;
+            where TEntityDerivative :  TEntity;
         
         IRepository<TEntity, TEntityId> Add(TEntity entity);
         
