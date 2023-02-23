@@ -2,27 +2,24 @@
 {
     using System;
 
-    public class DataChangeEventArgs<T> : EventArgs
+    public class DataChangeEventArgs<T> 
+        : EventArgs
     {
-        private readonly T _oldData;
-        private readonly T _newData;
+        private readonly T? _oldData;
+        private readonly T? _newData;
 
-        private DataChangeEventArgs()
-        {
-        }
-
-        public DataChangeEventArgs(T oldDataValue, T newDataValue)
+        public DataChangeEventArgs(T? oldDataValue, T? newDataValue)
         {
             _oldData = oldDataValue;
             _newData = newDataValue;
         }
 
-        public T OldData
+        public T? OldData
         {
             get { return _oldData; }
         }
 
-        public T NewData
+        public T? NewData
         {
             get { return _newData; }
         }

@@ -66,11 +66,11 @@
                 }
             }
 
-            if (specification.PaginationSpec is not null)
+            if (specification.DataPaginationSpec is not null)
             {
                 queryable = queryable
-                    .Skip(Convert.ToInt32(specification.PaginationSpec.PageNumber) - 1)
-                    .Take(Convert.ToInt32(specification.PaginationSpec.PageSize));
+                    .Skip(Convert.ToInt32(specification.DataPaginationSpec.PageNumber) - 1)
+                    .Take(Convert.ToInt32(specification.DataPaginationSpec.PageSize));
             }
 
             if (specification.UseSplitQuery)

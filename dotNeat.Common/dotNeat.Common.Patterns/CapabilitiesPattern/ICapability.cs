@@ -7,7 +7,7 @@
     public interface ICapability
     {
         bool IsAvailable { get; }
-        event EventHandler<DataChangeEventArgs<bool>> IsAvailableChanging;
-        event EventHandler<DataChangeEventArgs<bool>> IsAvailableChanged;
+        event EventHandler<DataChangeEventArgs<bool>>? IsAvailableChanging;
+        event EventHandler<DataChangeEventArgs<bool>>? IsAvailableChanged;
     }
 }

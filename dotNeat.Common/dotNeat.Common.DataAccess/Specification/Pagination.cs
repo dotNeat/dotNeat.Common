@@ -3,7 +3,7 @@
     public class Pagination
         : IPagination
     {
-        public Pagination(uint pageNumber, uint pageSize) 
+        public Pagination(ulong pageNumber, ulong pageSize) 
         {
             PageNumber = pageNumber;
             PageSize = pageSize;    

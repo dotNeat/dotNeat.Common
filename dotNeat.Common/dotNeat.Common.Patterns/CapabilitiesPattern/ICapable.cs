@@ -14,22 +14,10 @@
             where TCapability : ICapability;
 
         TCapability[] GetImplementationsOf<TCapability>()
-            where TCapability : class, ICapability;
+            where TCapability : ICapability;
 
         ICapability[] GetAllCapabilityImplementations();
 
         Type[] GetAllImplementedCapabilityTypes();
-
-
-        //ReadOnlyObservableCollection<ICapability> Capabilities { get; }
-
-        //TCapability Get<TCapability>() 
-        //    where TCapability : class, ICapability;
-
-        //ICapable GetFirstActualImplementationOf<TCapability>()
-        //    where TCapability : ICapability;
-
-        //ICapable[] GetAllActualImplementationsOf<TCapability>()
-        //    where TCapability : ICapability;
     }
 }

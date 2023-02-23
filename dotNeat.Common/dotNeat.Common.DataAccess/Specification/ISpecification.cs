@@ -21,6 +21,6 @@
         ICriteria<TEntity>? DataFilterSpec { get; }
         ISortingOrder<TEntity>? DataSortingSpec { get; }
         IExtraDataInclusion<TEntity>? ExtraDataInclusionSpec{ get; }
-        IPagination? PaginationSpec { get; }
+        IPagination? DataPaginationSpec { get; }
     }
 }

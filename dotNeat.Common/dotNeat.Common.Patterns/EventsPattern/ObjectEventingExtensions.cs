@@ -6,11 +6,11 @@
     {
         public static void RaiseDataChangeEventHandler<T>(
             this object obj,
-            EventHandler<DataChangeEventArgs<T>> eventHandler,
+            EventHandler<DataChangeEventArgs<T>>? eventHandler,
             DataChangeEventArgs<T> eventArgs
             )
         {
-            EventHandler<DataChangeEventArgs<T>> eh = eventHandler;
+            EventHandler<DataChangeEventArgs<T>>? eh = eventHandler;
             if (eh != null)
             {
                 eh(obj, eventArgs);

@@ -1,7 +1,6 @@
 ﻿namespace dotNeat.Common.Patterns.CapabilitiesPattern
 {
     using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
     using System.Linq;
     using System.Diagnostics;
@@ -19,25 +18,21 @@
         , ICapable
         , ICapability
     {
-        //private readonly ObservableCollection<ICapability> _capabilities = null;
-        //private readonly ReadOnlyObservableCollection<ICapability> _readOnlyCapabilities = null;
+        protected internal CompositeCapabilitiesHost? _container = null;
 
-        protected internal CompositeCapabilitiesHost? _container;
-        protected internal readonly Dictionary<Type, List<ICapability>>? _capabilityImplementationsByCapability = null;
+        protected internal readonly Dictionary<Type, List<ICapability>> _capabilityImplementationsByCapability = 
+            new Dictionary<Type, List<ICapability>>();
 
         public CapabilitiesHost(CompositeCapabilitiesHost? container = null)
         {
-            //_capabilities = new ObservableCollection<ICapability>();
-            //_readOnlyCapabilities = new ReadOnlyObservableCollection<Capability>(_capabilities);
-
             this._container = container;
-
-            this._capabilityImplementationsByCapability = new Dictionary<Type, List<ICapability>>();
 
             //register this instance's own capabilities:
             Type thisType = this.GetType();
-            //IEnumerable<Type> thisTypeCapabilities = thisType.GetInterfaces().Where(i => typeof(ICapability).IsAssignableFrom(i));
-            IEnumerable<Type> thisTypeCapabilities = thisType.GetInterfaces().Where(i => i.GetInterfaces().Contains(typeof(ICapability)));
+            //IEnumerable<Type> thisTypeCapabilities =
+            //    thisType.GetInterfaces().Where(i => typeof(ICapability).IsAssignableFrom(i));
+            IEnumerable<Type> thisTypeCapabilities = 
+                thisType.GetInterfaces().Where(i => i.GetInterfaces().Contains(typeof(ICapability)));
             foreach (Type t in thisTypeCapabilities)
             {
                 this._capabilityImplementationsByCapability.Add(t, new List<ICapability>(new ICapability[] {this,}));
@@ -53,17 +48,16 @@
 
         public IComposite<CapabilitiesHost>? Container => this._container;
 
-        public IEnumerable<CapabilitiesHost> GetComponents()
+        public virtual IEnumerable<CapabilitiesHost> GetComponents()
         {
             return Array.Empty<CapabilitiesHost>();
         }
 
         #endregion IComponent<CapabilitiesHost>
 
-
         #region IComponent<CapabilitiesHost> explicit
 
-        IComposite IComponent.Container => this.Container;
+        IComposite? IComponent.Container => this.Container;
 
         IEnumerable<IComponent> IComponent.GetComponents()
         {
@@ -85,10 +79,10 @@
         }
 
         public TCapability[] GetImplementationsOf<TCapability>() 
-            where TCapability : class, ICapability
+            where TCapability : ICapability
         {
             Type capabilityType = typeof(TCapability);
-            List<ICapability> capabilityImplementations = null;
+            List<ICapability>? capabilityImplementations = null;
             if (_capabilityImplementationsByCapability.TryGetValue(capabilityType, out capabilityImplementations))
                 return capabilityImplementations.Cast<TCapability>().ToArray();
             else
@@ -97,9 +91,12 @@
 
         public ICapability[] GetAllCapabilityImplementations()
         {
-            List<ICapability> capabilityImplementations = new List<ICapability>(_capabilityImplementationsByCapability.Count);
+            List<ICapability> capabilityImplementations = 
+                new List<ICapability>(_capabilityImplementationsByCapability.Count);
+            
             foreach (var key in _capabilityImplementationsByCapability.Keys)
                 capabilityImplementations.AddRange(_capabilityImplementationsByCapability[key]);
+
             return capabilityImplementations.ToArray();
         }
 
@@ -107,33 +104,6 @@
         {
             return _capabilityImplementationsByCapability.Keys.ToArray();
         }
-
-        //public ReadOnlyObservableCollection<ICapability> Capabilities
-        //{
-        //    get { return _readOnlyCapabilities; }
-        //}
-
-        //public TCapability Get<TCapability>() where TCapability : class, ICapability
-        //{
-        //    return _readOnlyCapabilities.FirstOrDefault(i => i is TCapability) as TCapability;
-        //}
-
-        //public ICapable GetFirstActualImplementationOf<TCapability>() where TCapability : ICapability
-        //{
-        //    ICapable[] result = GetAllActualImplementationsOf<TCapability>();
-        //    if (result.Length > 0)
-        //        return result[0];
-        //    else
-        //        return null;
-        //}
-
-        //public ICapable[] GetAllActualImplementationsOf<TCapability>() where TCapability : ICapability
-        //{
-        //    List<ICapable> result = null;
-        //    if (!_actualCapabilityHostsByCapability.TryGetValue(typeof(TCapability), out result))
-        //        result = new List<ICapable>();
-        //    return result.ToArray();
-        //}
 
         #endregion ICapable
 
@@ -165,12 +135,32 @@
 
         public virtual bool IsAvailable
         {
-            get { return true; }
+            get { return this._isAvailable; }
+            set 
+            { 
+                if (this._isAvailable == value) 
+                    return;
+
+                var eventArgs = new DataChangeEventArgs<bool>(this._isAvailable, value);
+
+                this.RaiseDataChangeEventHandler(
+                    this.IsAvailableChanging, 
+                    eventArgs
+                    );
+
+                this._isAvailable = value;
+
+                this.RaiseDataChangeEventHandler(
+                    this.IsAvailableChanged,
+                    eventArgs
+                    );
+            }
         }
+        private bool _isAvailable = false;
 
-        public event EventHandler<DataChangeEventArgs<bool>> IsAvailableChanging;
+        public event EventHandler<DataChangeEventArgs<bool>>? IsAvailableChanging;
 
-        public event EventHandler<DataChangeEventArgs<bool>> IsAvailableChanged;
+        public event EventHandler<DataChangeEventArgs<bool>>? IsAvailableChanged;
 
         #endregion ICapability
 
@@ -181,13 +171,13 @@
             get { return this.IsAvailable; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanging
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanging
         {
             add { this.IsAvailableChanging += value; }
             remove { this.IsAvailableChanging -= value; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanged
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanged
         {
             add { this.IsAvailableChanged += value; }
             remove { this.IsAvailableChanged -= value; }
@@ -206,7 +196,13 @@
     {
         private const int initialComponentsCapacity = 3;
 
-        private readonly HashSet<CapabilitiesHost> _components = new(initialComponentsCapacity);
+        private readonly HashSet<CapabilitiesHost> _components = 
+            new(initialComponentsCapacity);
+
+        public override IEnumerable<CapabilitiesHost> GetComponents()
+        {
+            return this._components;
+        }
 
         public CompositeCapabilitiesHost Add(CapabilitiesHost component)
         {
@@ -216,11 +212,11 @@
                 return this;
             }
 
-            Debug.Assert(component.Container == null, "The component already belongs to another conatiner.");
+            Debug.Assert(component.Container == null, "The component already belongs to another container.");
 
             foreach (var capability in component._capabilityImplementationsByCapability.Keys)
             {
-                List<ICapability> capabilityImplementations = null;
+                List<ICapability>? capabilityImplementations = null;
                 if (!this._capabilityImplementationsByCapability.TryGetValue(capability, out capabilityImplementations))
                 {
                     capabilityImplementations = new List<ICapability>();
@@ -249,11 +245,11 @@
             }
 
             Debug.Assert(component.Container == this, "The component about to remove does not belongs to this conatiner.");
-            Debug.Assert(this._components.Contains(component), "The componentabout to remove does not exists in this container.");
+            Debug.Assert(this._components.Contains(component), "The component about to remove does not exists in this container.");
 
             foreach (var capability in component._capabilityImplementationsByCapability.Keys)
             {
-                List<ICapability> capabilityImplementations = null;
+                List<ICapability>? capabilityImplementations = null;
                 if (this._capabilityImplementationsByCapability.TryGetValue(capability, out capabilityImplementations))
                 {
                     //List<ICapability> capabilityImplementationsToRemove = child._capabilityImplementationsByCapability[capability];
@@ -292,6 +288,8 @@
             return this;
         }
 
+        #region IComposite
+
         public IComposite Add(IComponent component)
         {
             Debug.Assert(component is CapabilitiesHost, "Unexpected IComponent type to add!");
@@ -305,6 +303,15 @@
 
             return this.Remove((CapabilitiesHost)component);
         }
+
+        IComposite IComposite.RemoveAllComponents()
+        {
+            return this.RemoveAllComponents();
+        }
+
+        #endregion IComposite
+
+        #region IComposite<CapabilitiesHost> 
 
         public IComposite<CapabilitiesHost> RemoveAllComponents()
         {
@@ -327,93 +334,7 @@
             return this.Remove(component);
         }
 
-        IComposite IComposite.RemoveAllComponents()
-        {
-            return this.RemoveAllComponents();
-        }
+        #endregion IComposite<CapabilitiesHost> 
     }
 
-
-
-    /// <summary>
-    /// THIS IMPLEMENTATION IS NOT COMPLETE!!! 
-    /// </summary>
-    /// <typeparam name="TData">The type of the data.</typeparam>
-    //public abstract class CapabilitiesHost<TData> : TreeNode<TData>, ITreeNode<TData>, ICapable
-    //    where TData : IComparable<TData>
-    //{
-    //    private readonly ObservableCollection<ICapability> _capabilities = null;
-    //    private readonly ReadOnlyObservableCollection<ICapability> _readOnlyCapabilities = null;
-    //    private readonly Dictionary<Type, List<ICapable>> _actualCapabilityHostsByCapability = null;
-        
-    //    public CapabilitiesHost(TData data)
-    //        : base(data)
-    //    {
-    //        _capabilities = new ObservableCollection<ICapability>();
-    //        _readOnlyCapabilities = new ReadOnlyObservableCollection<ICapability>(_capabilities);
-    //        _actualCapabilityHostsByCapability = new Dictionary<Type, List<ICapable>>();
-    //    }
-
-    //    #region ICapable
-
-    //    public ReadOnlyObservableCollection<ICapability> Capabilities
-    //    {
-    //        get { return _readOnlyCapabilities; }
-    //    }
-
-    //    public bool Has<TCapability>() where TCapability : ICapability
-    //    {
-    //        return _readOnlyCapabilities.Any(i => i is TCapability);
-    //    }
-
-    //    public TCapability Get<TCapability>() where TCapability : class, ICapability
-    //    {
-    //        return _readOnlyCapabilities.FirstOrDefault(i => i is TCapability) as TCapability;
-    //    }
-
-    //    public ICapable GetFirstActualImplementationOf<TCapability>() where TCapability : ICapability
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public ICapable[] GetAllActualImplementationsOf<TCapability>() where TCapability : ICapability
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    #endregion ICapable
-
-
-    //    bool ICapable.Has<TCapability>()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    TCapability[] ICapable.GetImplementationsOf<TCapability>()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-
-    //    public ICapability[] GetAllCapabilityImplementations()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public Type[] GetAllImplementedCapabilityTypes()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-
-    //    ICapability[] ICapable.GetAllCapabilityImplementations()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    Type[] ICapable.GetAllImplementedCapabilityTypes()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
 }
