@@ -1,10 +1,12 @@
 ﻿namespace dotNeat.Common.DataAccess.Specification
 {
-    using dotNeat.Common.DataAccess.Criteria;
 
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
+
+    using dotNeat.Common.DataAccess.Criteria;
+
     using static dotNeat.Common.DataAccess.Specification.ISortingOrder;
 
     public class Specification<TEntity>
