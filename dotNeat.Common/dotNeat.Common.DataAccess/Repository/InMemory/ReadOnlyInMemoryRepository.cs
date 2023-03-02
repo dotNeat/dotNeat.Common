@@ -2,19 +2,19 @@
 {
     using dotNeat.Common.DataAccess.Criteria;
     using dotNeat.Common.DataAccess.Entity;
+    using dotNeat.Common.DataAccess.Specification;
 
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
-    public class ReadOnlyInMemoryRepository<TEntity, TEntityId> 
-        : IReadOnlyRepository<TEntity, TEntityId>
-        where TEntity :  IEntity<TEntityId>
+    public class ReadOnlyInMemoryRepository<TEntity, TEntityId>
+        : ReadOnlyRepositoryBase<TEntity, TEntityId>
+        where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
-        protected readonly ConcurrentDictionary<TEntityId, TEntity> _entities = 
+        protected readonly ConcurrentDictionary<TEntityId, TEntity> _entities =
             new ConcurrentDictionary<TEntityId, TEntity>();
 
         public ReadOnlyInMemoryRepository(IEnumerable<TEntity> entities)
@@ -28,131 +28,157 @@
             }
         }
 
-        public bool ContainsEntity(TEntityId id)
+        #region base overrides
+
+        public override bool ContainsEntity(TEntityId id)
         {
             return _entities.ContainsKey(id);
         }
 
-        public long CountEntities()
+        public override ulong CountEntities()
         {
-            return _entities.Count();
+            return Convert.ToUInt64(
+                _entities.LongCount()
+                );
         }
 
-        public long CountEntities<TEntityDerivative>()
-            where TEntityDerivative :  TEntity
+        public override ulong CountEntities<TEntityDerivative>() 
         {
-            return _entities.Values.Where(i => i is TEntityDerivative).Count(); 
+            return Convert.ToUInt64(
+                _entities.Values.Where(i => i is TEntityDerivative).LongCount()
+                );
         }
 
-        public long CountEntities(ICriteria<TEntity> entitySpec)
+        public override ulong CountEntities(ICriteria<TEntity> criteria)
         {
-            return _entities.Values.Where(i => entitySpec.IsSatisfiedBy(i)).Count();
+            return Convert.ToUInt64( 
+                _entities.Values.Where(i => criteria.IsSatisfiedBy(i)).LongCount()
+                );
         }
 
-        public TEntity? GetEntity(TEntityId id)
+        public override ulong CountEntities<TEntityDerivative>(ICriteria<TEntityDerivative> criteria) 
+        {
+            return Convert.ToUInt64(
+                _entities.Values.Where(i => criteria.IsSatisfiedBy(i)).LongCount()
+                );
+        }
+
+        public override TEntity? GetEntity(TEntityId id)
         {
             if (_entities.TryGetValue(id, out TEntity? value))
             {
                 return value;
             }
-            return default(TEntity?);
+            return default;
         }
 
-        public IReadOnlyCollection<TEntityDerivative> GetEntities<TEntityDerivative>()
-            where TEntityDerivative :  TEntity
-        {
-            return _entities.Values
-                .Where(i => i is TEntityDerivative)
-                .Cast<TEntityDerivative>()
-                .ToArray();
-        }
-
-        public IReadOnlyCollection<TEntity> GetEntities(ICriteria<TEntity> entitySpec)
-        {
-            return _entities.Values
-                .Where(i => entitySpec.IsSatisfiedBy(i))
-                .ToArray();
-        }
-
-        public IReadOnlyCollection<TEntity> GetEntities()
+        public override IReadOnlyCollection<TEntity> GetEntities()
         {
             return _entities.Values
                 .ToArray();
         }
 
-        public IReadOnlyCollection<TEntity> GetEntitiesPage(
-            ICriteria<TEntity> entitySpec,
-            long pageNumber,
-            long pageSize,
-            out long totalPages
-            )
+        public override IReadOnlyCollection<TEntity> GetEntities(ISpecification<TEntity> spec)
         {
-            var items = _entities.Values
-                .Where(i => entitySpec.IsSatisfiedBy(i))
-                .Skip(CalculateSkip(pageNumber, pageSize))
-                .Take(Convert.ToInt32(pageSize))
+            IEnumerable<TEntity> entities = 
+                _entities.Values
                 .ToArray();
 
-            totalPages = CalculateTotalPages(items.Count(), pageSize);
+            entities = ApplySpec(entities, spec);
 
-            return items;
+            return entities.ToArray();
         }
 
-        public IReadOnlyCollection<TEntityDerivative> GetEntitiesPage<TEntityDerivative>(
-            long pageNumber,
-            long pageSize,
-            out long totalPages
-            )
-            where TEntityDerivative :  TEntity
+        public override IReadOnlyCollection<TEntityDerivative> GetEntities<TEntityDerivative>(ISpecification<TEntityDerivative> spec) 
         {
-            var items = _entities.Values
-                .Where(i => i is TEntityDerivative)
-                .Skip(CalculateSkip(pageNumber, pageSize))
-                .Take(Convert.ToInt32(pageSize))
+            IEnumerable<TEntityDerivative> entities =
+                _entities.Values
+                .Where(e => e is TEntityDerivative)
                 .Cast<TEntityDerivative>()
                 .ToArray();
 
-            totalPages = CalculateTotalPages(items.Count(), pageSize);
+            entities = ApplySpec(entities, spec);
 
-            return items;
+            return entities.ToArray();
         }
 
-        public IReadOnlyCollection<TEntity> GetEntitiesPage(
-            long pageNumber,
-            long pageSize,
-            out long totalPages
-            )
+        #endregion base overrides
+
+        #region private 
+
+        private IEnumerable<T> ApplySpec<T>(IEnumerable<T> entities, ISpecification<T> spec)
+            where T : IEntity<TEntityId>
         {
-            var items = _entities.Values
-                .Skip(CalculateSkip(pageNumber, pageSize))
-                .Take(Convert.ToInt32(pageSize))
-                .ToArray();
+            entities = ApplySpec(entities, spec.DataFilterSpec);
+            entities = ApplySpec(entities, spec.DataSortingSpec);
+            entities = ApplySpec(entities, spec.DataPaginationSpec);
+            entities = ApplySpec(entities, spec.ExtraDataInclusionSpec);
+            ValidateOutcome(entities, spec.ExpectedOutcome);
 
-            totalPages = CalculateTotalPages(items.Count(), pageSize);
-
-            return items;
+            return entities.ToArray();
         }
 
-        private int CalculateSkip(long pageNumber, long pageSize)
+        private IEnumerable<T> ApplySpec<T>(IEnumerable<T> entities, ICriteria<T>? spec)
+            where T : IEntity<TEntityId>
         {
-            var result = (pageNumber - 1) * pageSize;
-            return Convert.ToInt32(result);
-        }
-
-        private long CalculateTotalPages(long itemsCount, long itemsPerPage)
-        {
-            var result = Math.DivRem(itemsCount, itemsPerPage);
-            return result.Quotient + (result.Remainder > 0 ? 1 : 0);
-        }
-
-        protected void Report(string message, bool shouldAssert = false)
-        {
-            string traceMessage = $"{this.GetType().Name}: {message}";
-            Trace.WriteLine(traceMessage);
-            if (shouldAssert)
+            if (spec is not null)
             {
-                Debug.Assert(false, traceMessage);
+                entities =
+                    entities
+                    .Where(i => spec.IsSatisfiedBy(i));
             }
+
+            return entities;
         }
+
+        private IEnumerable<T> ApplySpec<T>(IEnumerable<T> entities, ISortingOrder<T>? spec)
+            where T : IEntity<TEntityId>
+        {
+            if (spec is not null)
+            {
+                foreach (var sortingSpec in spec.Specifications)
+                {
+                    switch (sortingSpec.SortingDirection)
+                    {
+                        case ISortingOrder.Direction.Ascending:
+                            entities = entities.OrderBy(sortingSpec.SortByExpression.Compile());
+                            break;
+                        case ISortingOrder.Direction.Descending:
+                            entities = entities.OrderByDescending(sortingSpec.SortByExpression.Compile());
+                            break;
+                        default:
+                            Report(
+                                $"Unexpected {nameof(ISortingOrder.Direction)} enum's value: {sortingSpec.SortingDirection}",
+                                true
+                                );
+                            break;
+                    }
+                }
+            }
+
+            return entities;
+        }
+
+        private IEnumerable<T> ApplySpec<T>(IEnumerable<T> entities, IPagination? spec)
+            where T : IEntity<TEntityId>
+        {
+            if (spec is not null)
+            {
+                entities = entities
+                    .Skip(Convert.ToInt32(CalculateSkip(spec.PageNumber, spec.PageSize)))
+                    .Take(Convert.ToInt32(spec.PageSize));
+            }
+
+            return entities;
+        }
+
+        protected virtual IEnumerable<T> ApplySpec<T>(IEnumerable<T> entities, IExtraDataInclusion<T>? spec)
+            where T : IEntity<TEntityId>
+        {
+            return entities;
+        }
+
+        #endregion private 
+
     }
 }

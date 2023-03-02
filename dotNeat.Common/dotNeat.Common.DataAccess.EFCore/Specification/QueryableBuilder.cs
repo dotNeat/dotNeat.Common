@@ -9,42 +9,45 @@
     public static class QueryableBuilder
     {
         public static IQueryable<TEntity> BuildQueryable<TEntity>(
-            IQueryable<TEntity> queryableSeed, 
+            IQueryable<TEntity> queryableSeed,
             ISpecification<TEntity> specification
             )
             where TEntity : class
         {
             IQueryable<TEntity> queryable = queryableSeed;
 
-            if (specification.DataFilterSpec is not null)
+            if (specification.UseSplitQuery)
             {
-                switch (specification.ExpectedOutcome)
-                {
-                    case ISpecification<TEntity>.Outcome.Undetermined:
-                    case ISpecification<TEntity>.Outcome.Many:
-                        queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
-                        break;
-                    //TODO: refactore the alternative return object and implement as needed:
-                    //case ISpecification<TEntity>.Outcome.NoneOrOne:
-                    //    _ = queryable.SingleOrDefault(i => specification.FilterCriteria.IsSatisfiedBy(i));
-                    //    break;
-                    //case ISpecification<TEntity>.Outcome.One:
-                    //    _ = queryable.Single(i => specification.FilterCriteria.IsSatisfiedBy(i));
-                    //    break;
-                    default: 
-                        Debug.Assert(false, "This Outcome is not handled yet!");
-                        break;
-                }
+                queryable = queryable.AsSplitQuery();
             }
 
-            if (specification.ExtraDataInclusionSpec is not null 
+            if (specification.ExtraDataInclusionSpec is not null
                 && specification.ExtraDataInclusionSpec.IncludeExpressions.Count > 0
                 )
             {
                 queryable = specification.ExtraDataInclusionSpec.IncludeExpressions.Aggregate(
-                    queryable, 
+                    queryable,
                     (current, includeExpression) => current.Include(includeExpression)
                     );
+            }
+
+            if (specification.DataFilterSpec is not null)
+            {
+                switch (specification.ExpectedOutcome)
+                {
+                    case ISpecification<TEntity>.Outcome.OneOrNone:
+                    case ISpecification<TEntity>.Outcome.One:
+                        queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
+                        // no need to continue further with sorting or paging the single or no result:
+                        return queryable;
+                    case ISpecification<TEntity>.Outcome.Many:
+                    case ISpecification<TEntity>.Outcome.Undetermined:
+                        queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
+                        break;
+                    default: 
+                        Debug.Assert(false, "This Outcome is not handled yet!");
+                        break;
+                }
             }
 
             if (specification.DataSortingSpec is not null)
@@ -71,11 +74,6 @@
                 queryable = queryable
                     .Skip(Convert.ToInt32(specification.DataPaginationSpec.PageNumber) - 1)
                     .Take(Convert.ToInt32(specification.DataPaginationSpec.PageSize));
-            }
-
-            if (specification.UseSplitQuery)
-            {
-                queryable = queryable.AsSplitQuery();
             }
 
             return queryable;

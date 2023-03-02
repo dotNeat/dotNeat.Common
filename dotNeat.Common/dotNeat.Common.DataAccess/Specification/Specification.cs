@@ -12,10 +12,6 @@
     public class Specification<TEntity>
         : ISpecification<TEntity>
     {
-        private readonly List<Expression<Func<TEntity, object>>> _includeExpressions;
-        private Expression<Func<TEntity, bool>>? _filterExpression;
-        private Expression<Func<TEntity, object>>? _orderByExpression;
-        private Expression<Func<TEntity, object>>? _orderByDescendingExpression;
 
         protected Specification()
             : this(null,null,null,null) 
@@ -39,12 +35,18 @@
             UseSplitQuery = useSplitQuery;
         }
 
+        #region read-only properties
+
         public ISpecification.Outcome ExpectedOutcome { get; private set; }
         public bool UseSplitQuery { get; private set; } = false;
         public ICriteria<TEntity>? DataFilterSpec { get; private set; }
         public ISortingOrder<TEntity>? DataSortingSpec { get; private set; }
         public IExtraDataInclusion<TEntity>? ExtraDataInclusionSpec { get; private set; }
         public IPagination? DataPaginationSpec { get; private set; }
+
+        #endregion read-only 
+
+        #region fluent property setters
 
         public Specification<TEntity> SetExpectedOutcome(ISpecification.Outcome expectedOutcome)
         {
@@ -78,12 +80,14 @@
 
         public Specification<TEntity> SetDataPaginationSpec(IPagination? pagination)
         {
-            DataPaginationSpec= pagination;
+            DataPaginationSpec = pagination;
             return this;
         }
 
+        #endregion fluent property setters
+
         #region fluent builder API
-        
+
         public static Specification<TEntity> Create() 
         { 
             return new Specification<TEntity>(); 

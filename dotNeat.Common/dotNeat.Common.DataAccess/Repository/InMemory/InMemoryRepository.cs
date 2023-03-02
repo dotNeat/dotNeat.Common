@@ -8,9 +8,10 @@
     public class InMemoryRepository<TEntity, TEntityId>
         : ReadOnlyInMemoryRepository<TEntity, TEntityId>
         , IRepository<TEntity, TEntityId>
-        where TEntity :  IEntity<TEntityId>
+        where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
+
         private InMemoryRepository()
             : this(Array.Empty<TEntity>())
         {
@@ -21,12 +22,26 @@
         {
         }
 
-        public virtual TEntityDerivative Create<TEntityDerivative>()
-            where TEntityDerivative :  TEntity
+        public IAsyncRepository<TEntity, TEntityId> AsAsyncRepository 
         {
-            throw new NotImplementedException();
-            //return default(TEntityDerivative);
+            get
+            {
+                if (_asyncRepo == null)
+                {
+                    _asyncRepo = new RepositoryAsyncWrapper<TEntity, TEntityId>(this);
+                }
+                return _asyncRepo;
+            }
         }
+        private IAsyncRepository<TEntity, TEntityId>? _asyncRepo = null;
+
+
+        //public virtual TEntityDerivative Create<TEntityDerivative>()
+        //    where TEntityDerivative :  TEntity
+        //{
+        //    throw new NotImplementedException();
+        //    //return default(TEntityDerivative);
+        //}
 
         public IRepository<TEntity, TEntityId> Add(TEntity entity)
         {
@@ -84,7 +99,6 @@
 
             return this;
         }
-
 
     }
 }

@@ -7,9 +7,9 @@
         public enum Outcome
         {
             Undetermined,
-            NoneOrOne,
-            One,
             Many,
+            One,
+            OneOrNone,
         }
 
         Outcome ExpectedOutcome { get; }

@@ -2,6 +2,7 @@
 {
     using dotNeat.Common.DataAccess.Criteria;
     using dotNeat.Common.DataAccess.Entity;
+    using dotNeat.Common.DataAccess.Specification;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -9,11 +10,9 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReadOnlyEFCoreRepository<TEntity, TEntityId>
-        : IReadOnlyRepository<TEntity, TEntityId>
-        , IAsyncReadOnlyRepository<TEntity, TEntityId>
+        : ReadOnlyRepositoryBase<TEntity, TEntityId>
         where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
@@ -32,126 +31,70 @@
             Debug.Assert(_dbSet is not null, $"{nameof(_dbSet)} must not be null!");
 		}
 
-        #region IReadOnlyRepository
+        #region base overrides
 
-        public bool ContainsEntity(TEntityId id)
+        public override bool ContainsEntity(TEntityId id)
         {
             return _dbSet.Find(id) != null;
         }
 
-        public long CountEntities()
+        public override ulong CountEntities()
         {
-            return _dbSet.LongCount();
+            return Convert.ToUInt64(
+                _dbSet.LongCount()
+                );
         }
 
-        public long CountEntities(ICriteria<TEntity> entitySpec)
+        public override ulong CountEntities<TEntityDerivative>()
         {
-            throw new NotImplementedException();
+            return Convert.ToUInt64(
+                _dbContext.Set<TEntityDerivative>().LongCount()
+                );
         }
 
-        public IReadOnlyCollection<TEntity> GetEntities(ICriteria<TEntity> entitySpec)
+        public override ulong CountEntities(ICriteria<TEntity> criteria)
         {
-            throw new NotImplementedException();
+            return Convert.ToUInt64(
+                _dbSet
+                .Where(e => criteria.IsSatisfiedBy(e))
+                .LongCount()
+                );
         }
 
-        public IReadOnlyCollection<TEntity> GetEntities()
+        public override ulong CountEntities<TEntityDerivative>(ICriteria<TEntityDerivative> criteria)
         {
-            return _dbSet.ToArray();
+            return Convert.ToUInt64(
+                _dbContext.Set<TEntityDerivative>()
+                .Where(e => criteria.IsSatisfiedBy(e))
+                .LongCount()
+                );
         }
 
-        public IReadOnlyCollection<TEntity> GetEntitiesPage(ICriteria<TEntity> entitySpec, long pageNumber, long pageSize, out long totalPages)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyCollection<TEntity> GetEntitiesPage(long pageNumber, long pageSize, out long totalPages)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity? GetEntity(TEntityId id)
+        public override TEntity? GetEntity(TEntityId id)
         {
             return _dbSet.Find(id);
         }
 
-        long IReadOnlyRepository<TEntity, TEntityId>.CountEntities<TEntityDerivative>()
+        public override IReadOnlyCollection<TEntity> GetEntities()
         {
-            return _dbSet.OfType<TEntityDerivative>().LongCount();
+            return _dbSet.ToArray();
         }
 
-        IReadOnlyCollection<TEntityDerivative> IReadOnlyRepository<TEntity, TEntityId>.GetEntities<TEntityDerivative>()
+        public override IReadOnlyCollection<TEntity> GetEntities(ISpecification<TEntity> spec)
         {
-            return _dbSet.OfType<TEntityDerivative>().ToArray();
+            return QueryableBuilder
+                .BuildQueryable(_dbSet, spec)
+                .ToArray();
         }
 
-        IReadOnlyCollection<TEntityDerivative> IReadOnlyRepository<TEntity, TEntityId>.GetEntitiesPage<TEntityDerivative>(long pageNumber, long pageSize, out long totalPages)
+        public override IReadOnlyCollection<TEntityDerivative> GetEntities<TEntityDerivative>(ISpecification<TEntityDerivative> spec)
         {
-            throw new NotImplementedException();
+            return QueryableBuilder
+                .BuildQueryable(_dbContext.Set<TEntityDerivative>(), spec)
+                .ToArray();
         }
 
-        #endregion IReadOnlyRepository
-
-        #region IAsyncReadOnlyRepository
-
-        public Task<bool> ContainsEntityAsync(TEntityId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<long> CountEntitiesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<long> CountEntitiesAsync(ICriteria<TEntity> entitySpec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyCollection<TEntity>> GetEntitiesAsync(ICriteria<TEntity> entitySpec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyCollection<TEntity>> GetEntitiesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyCollection<TEntity>> GetEntitiesPageAsync(ICriteria<TEntity> entitySpec, long pageNumber, long pageSize, out long totalPages)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyCollection<TEntityDerivative>> GetEntitiesPageAsync<TEntityDerivative>(long pageNumber, long pageSize, out long totalPages)
-
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IReadOnlyCollection<TEntity>> GetEntitiesPageAsync(long pageNumber, long pageSize, out long totalPages)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<TEntity?> GetEntityAsync(TEntityId id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-
-        public async Task<long> CountEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative :  TEntity
-        {
-            return await _dbSet.OfType<TEntityDerivative>().LongCountAsync();
-        }
-
-        public async Task<IReadOnlyCollection<TEntityDerivative>> GetEntitiesAsync<TEntityDerivative>()
-            where TEntityDerivative :  TEntity
-        {
-            return await _dbSet.OfType<TEntityDerivative>().ToArrayAsync();
-        }
-
-        #endregion IAsyncReadOnlyRepository
+        #endregion base overrides
     }
 }
 

@@ -5,12 +5,13 @@
     using System;
     using System.Threading.Tasks;
 
-    public interface IAsyncRepository<TEntity, TEntityId> : IAsyncReadOnlyRepository<TEntity, TEntityId>
-        where TEntity :  IEntity<TEntityId>
+    public interface IAsyncRepository<TEntity, TEntityId> 
+        : IAsyncReadOnlyRepository<TEntity, TEntityId>
+        where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
-        Task<TEntityDerivative> CreateAsync<TEntityDerivative>()
-            where TEntityDerivative :  TEntity;
+        //Task<TEntityDerivative> CreateAsync<TEntityDerivative>()
+        //    where TEntityDerivative :  TEntity;
 
         Task<IRepository<TEntity, TEntityId>> AddAsync(TEntity entity);
 

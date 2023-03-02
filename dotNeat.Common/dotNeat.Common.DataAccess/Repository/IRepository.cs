@@ -6,12 +6,14 @@
 
     public interface IRepository<TEntity, TEntityId> 
         : IReadOnlyRepository<TEntity, TEntityId>
-        where TEntity :  IEntity<TEntityId>
+        where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
-        TEntityDerivative Create<TEntityDerivative>() 
-            where TEntityDerivative :  TEntity;
-        
+        IAsyncRepository<TEntity, TEntityId> AsAsyncRepository { get; }
+
+        //TEntityDerivative Create<TEntityDerivative>() 
+        //    where TEntityDerivative :  TEntity;
+
         IRepository<TEntity, TEntityId> Add(TEntity entity);
         
         IRepository<TEntity, TEntityId> AddGraph(TEntity entity);

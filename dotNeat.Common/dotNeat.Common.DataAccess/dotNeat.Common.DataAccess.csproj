@@ -9,7 +9,7 @@
 	<ItemGroup>
 	  <Folder Include="Entity\" />
 	  <Folder Include="Criteria\" />
-	  <Folder Include="Repository\InMemory\" />
+	  <Folder Include="Repository\Internal\" />
 	</ItemGroup>
 
 	<ItemGroup>
