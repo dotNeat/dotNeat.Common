@@ -22,10 +22,7 @@
         {
             get
             {
-                if (_asyncRepo == null)
-                {
-                    _asyncRepo = new ReadOnlyRepositoryAsyncWrapper<TEntity, TEntityId>(this);
-                }
+                _asyncRepo ??= new ReadOnlyRepositoryAsyncWrapper<TEntity, TEntityId>(this);
                 return _asyncRepo;
             }
         }
@@ -64,7 +61,6 @@
                     break;
             }
         }
-
 
         protected ulong CalculateSkip(ulong pageNumber, ulong pageSize)
         {

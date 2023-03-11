@@ -1,12 +1,12 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     using dotNeat.Common.DataAccess.Criteria;
     using dotNeat.Common.DataAccess.Entity;
     using dotNeat.Common.DataAccess.Specification;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public class ReadOnlyRepositoryAsyncWrapper<TEntity, TEntityId>
         : IAsyncReadOnlyRepository<TEntity, TEntityId>

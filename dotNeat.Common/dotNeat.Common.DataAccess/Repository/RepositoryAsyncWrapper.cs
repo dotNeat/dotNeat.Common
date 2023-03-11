@@ -1,9 +1,9 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository
 {
+    using dotNeat.Common.DataAccess.Entity;
+
     using System;
     using System.Threading.Tasks;
-
-    using dotNeat.Common.DataAccess.Entity;
 
     public class RepositoryAsyncWrapper<TEntity, TEntityId>
         : ReadOnlyRepositoryAsyncWrapper<TEntity, TEntityId>

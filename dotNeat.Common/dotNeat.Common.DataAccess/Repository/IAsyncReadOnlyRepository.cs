@@ -8,7 +8,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IAsyncReadOnlyRepository<TEntity, TEntityId>
+    public interface IAsyncReadOnlyRepository<TEntity, in TEntityId>
         where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {

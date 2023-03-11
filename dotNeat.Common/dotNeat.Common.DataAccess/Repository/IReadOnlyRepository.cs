@@ -7,7 +7,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IReadOnlyRepository<TEntity, TEntityId> 
+    public interface IReadOnlyRepository<TEntity, in TEntityId> 
         where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {

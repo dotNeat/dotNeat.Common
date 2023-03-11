@@ -1,8 +1,8 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository
 {
-    using System;
-
     using dotNeat.Common.DataAccess.Entity;
+
+    using System;
 
     public abstract class RepositoryBase<TEntity, TEntityId>
         : ReadOnlyRepositoryBase<TEntity, TEntityId>
@@ -20,10 +20,7 @@
         {
             get
             {
-                if (_asyncRepo == null)
-                {
-                    _asyncRepo = new RepositoryAsyncWrapper<TEntity, TEntityId>(this);
-                }
+                _asyncRepo ??= new RepositoryAsyncWrapper<TEntity, TEntityId>(this);
                 return _asyncRepo;
             }
         }
