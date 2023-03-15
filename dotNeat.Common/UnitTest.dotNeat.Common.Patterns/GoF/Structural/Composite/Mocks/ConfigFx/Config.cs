@@ -30,13 +30,13 @@
         {
         }
 
-        public IComposite<Config> Container
+        public IComposite<Config>? Container
         {
             get;
             protected set;
         }
 
-        IComposite IComponent.Container => this.Container;
+        IComposite? IComponent.Container => this.Container;
 
         public abstract IEnumerable<Config> GetComponents();
 
@@ -71,7 +71,7 @@
 
         public string RenderAsString(int indentCount = 0)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             while(indentCount > 0)
             {
                 stringBuilder.Append(Config.SingleIndent);

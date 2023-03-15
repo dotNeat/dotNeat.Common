@@ -23,34 +23,34 @@
             : base(AppConfigRoot.Sensor)
         {
             // build default configuration:
-            this.SensorID = new SensorIdentity(1);
-            this.SensorTag = new AppValue(Sensor.Tag, "Motion sensor");
-            this.SensorSensitivity = new ConfigValue<double>(Sensor.Sensitivity, 99.9);
-            this.SensorDimentions = new Dimensions() { Height = 0.01, Length = 0.02, Width = 0.03};
+            this.SensorID = new(1);
+            this.SensorTag = new(Sensor.Tag, "Motion sensor");
+            this.SensorSensitivity = new(Sensor.Sensitivity, 99.9);
+            this.SensorDimentions = new() { Height = 0.01, Length = 0.02, Width = 0.03};
         }
 
         public SensorIdentity SensorID 
         {
-            get {return this[Sensor.ID] as SensorIdentity; }
-            set { this[Sensor.ID] = value;}
+            get => (SensorIdentity)this[Sensor.ID];
+            set => this[Sensor.ID] = value;
         }
         public AppValue SensorTag 
         {
-            get {return this[Sensor.Tag] as AppValue; }
-            set { this[Sensor.Tag] = value;}
+            get => (AppValue)this[Sensor.Tag];
+            set => this[Sensor.Tag] = value;
         }
         public ConfigValue<double> SensorSensitivity 
         {
-            get {return this[Sensor.Sensitivity] as ConfigValue<double>; }
-            set { this[Sensor.Sensitivity] = value;}
+            get => (ConfigValue<double>)this[Sensor.Sensitivity];
+            set => this[Sensor.Sensitivity] = value;
         }
 
         public Dimensions SensorDimentions //=> this[SensorAttributes.SensorDimensions] as Dimensions;
         {
-            get {return this[Sensor.Dimensions] as Dimensions; }
-            set { this[Sensor.Dimensions] = value;}
+            get => (Dimensions)this[Sensor.Dimensions];
+            set => this[Sensor.Dimensions] = value;
         }
-        public AppSectionB SectionB => this[Sensor.AppSectionB] as AppSectionB;
+        public AppSectionB SectionB => (AppSectionB)this[Sensor.AppSectionB];
     }
 
     public class SensorIdentity
@@ -96,20 +96,20 @@
 
         public double Height
         {
-            get { return ((ConfigValue<double>) this[Dimension.Height]).Value; }
-            set { ((ConfigValue<double>) this[Dimension.Height]).Value = value; }
+            get => ((ConfigValue<double>) this[Dimension.Height]).Value;
+            set => ((ConfigValue<double>) this[Dimension.Height]).Value = value;
         }
 
         public double Length
         {
-            get { return ((ConfigValue<double>) this[Dimension.Length]).Value; }
-            set { ((ConfigValue<double>) this[Dimension.Length]).Value = value; }
+            get => ((ConfigValue<double>) this[Dimension.Length]).Value;
+            set => ((ConfigValue<double>) this[Dimension.Length]).Value = value;
         }
 
         public double Width
         {
-            get { return ((ConfigValue<double>) this[Dimension.Width]).Value; }
-            set { ((ConfigValue<double>) this[Dimension.Width]).Value = value; }
+            get => ((ConfigValue<double>) this[Dimension.Width]).Value;
+            set => ((ConfigValue<double>) this[Dimension.Width]).Value = value;
         }
     }
 

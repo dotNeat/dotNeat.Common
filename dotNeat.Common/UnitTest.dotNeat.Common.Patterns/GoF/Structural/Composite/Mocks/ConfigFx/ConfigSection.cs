@@ -153,7 +153,7 @@
             return this._childComponents.GetEnumerator();
         }
 
-        private void EnsureKeyMatch(Enum key, Config component)
+        private void EnsureKeyMatch(Enum key, Config? component)
         {
             if (component != null)
             {

@@ -1,9 +1,8 @@
 ﻿using dotNeat.Common.Utilities;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using cm = System.ComponentModel;
+using CM = System.ComponentModel;
 
-namespace Test.Dag.Common.Utilities
+namespace UnitTest.dotNeat.Common.Utilities
 {
     [TestClass()]
     public class EnumUtilFixture
@@ -22,7 +21,7 @@ namespace Test.Dag.Common.Utilities
 
     public enum Enumo1
     {
-        [cm.Description("Member 1")]
+        [CM.Description("Member 1")]
         Member1,
 
         Member2,

@@ -53,7 +53,7 @@
 
             //Discover the PTT capability and get reference to its implementation:
             IPttCapable[] pttImplementations = compositeEntityRoot.GetImplementationsOf<IPttCapable>();
-            IPttCapable ptt = pttImplementations.Length > 0 ? pttImplementations[0] : null;
+            IPttCapable? ptt = pttImplementations.Length > 0 ? pttImplementations[0] : null;
             Assert.AreSame(pttChildEntity, ptt);
 
             //Remove the child (IPttCapable) entity
@@ -68,7 +68,7 @@
 
             //More complex composition:
             compositeEntityRoot.Add(new ThisCapableEntity());
-            compositeEntityRoot.Add(new ThatCalableEntity());
+            compositeEntityRoot.Add(new ThatCapableEntity());
             compositeEntityRoot.Add(new ThisAndThatCapableEntity());
             compositeEntityRoot.TraceEntityCapabilities();
             Assert.AreEqual(3, compositeEntityRoot.GetAllImplementedCapabilityTypes().Length);
@@ -107,7 +107,7 @@
     {
         internal void TraceEntityCapabilities()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine(this.GetType().Name + ":");
             sb.AppendLine("   Supported capability types:");
             foreach (var i in this.GetAllImplementedCapabilityTypes())
@@ -148,8 +148,7 @@
             {
                 if (_isPttAvailable == value)
                     return;
-                DataChangeEventArgs<bool> eArgs =
-                    new DataChangeEventArgs<bool>(_isPttAvailable, value);
+                DataChangeEventArgs<bool> eArgs = new(_isPttAvailable, value);
                 OnIsPttAvailableChanging(eArgs);
                 _isPttAvailable = value;
                 OnIsPttAvailableChanged(eArgs);
@@ -167,9 +166,9 @@
             this.RaiseDataChangeEventHandler(IsPttAvailableChanged, eArgs);
         }
 
-        public event EventHandler<DataChangeEventArgs<bool>> IsPttAvailableChanging;
+        public event EventHandler<DataChangeEventArgs<bool>>? IsPttAvailableChanging;
 
-        public event EventHandler<DataChangeEventArgs<bool>> IsPttAvailableChanged;
+        public event EventHandler<DataChangeEventArgs<bool>>? IsPttAvailableChanged;
 
 
         void IPttCapable.StartPtt()
@@ -192,13 +191,13 @@
             get { throw new NotImplementedException(); }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanging
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanging
         {
             add { throw new NotImplementedException(); }
             remove { throw new NotImplementedException(); }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanged
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanged
         {
             add { throw new NotImplementedException(); }
             remove { throw new NotImplementedException(); }
@@ -215,19 +214,17 @@
             {
                 if (_status == value)
                     return;
-                DataChangeEventArgs<int> eArgs = new DataChangeEventArgs<int>(_status, value);
+                DataChangeEventArgs<int> eArgs = new(_status, value);
                 _status = value;
                 OnStatusChanged(eArgs);
             }
         }
 
-        public event EventHandler<DataChangeEventArgs<int>> StatusChanged;
+        public event EventHandler<DataChangeEventArgs<int>>? StatusChanged;
 
         protected virtual void OnStatusChanged(DataChangeEventArgs<int> eArgs)
         {
-            EventHandler<DataChangeEventArgs<int>> eh = StatusChanged;
-            if (eh != null)
-                eh(this, eArgs);
+            StatusChanged?.Invoke(this, eArgs);
         }
 
         int IStatusReportCapable.Status
@@ -246,13 +243,13 @@
             get { return this.IsAvailable; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanging
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanging
         {
             add { this.IsAvailableChanging += value; }
             remove { this.IsAvailableChanging -= value; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanged
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanged
         {
             add { this.IsAvailableChanged += value; }
             remove { this.IsAvailableChanged -= value; }
@@ -277,20 +274,20 @@
             get { return this.IsAvailable; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanging
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanging
         {
             add { this.IsAvailableChanging += value; }
             remove { this.IsAvailableChanging -= value; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanged
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanged
         {
             add { this.IsAvailableChanged += value; }
             remove { this.IsAvailableChanged -= value; }
         }
     }
 
-    internal class ThatCalableEntity : Entity, IThatCapability
+    internal class ThatCapableEntity : Entity, IThatCapability
     {
 
         public void DoThat()
@@ -302,7 +299,7 @@
     internal class ThisAndThatCapableEntity : Entity, IThisCapability, IThatCapability
     {
         private readonly IThisCapability _thisCapability = new ThisCapableEntity();
-        private readonly IThatCapability _thatCapability = new ThatCalableEntity();
+        private readonly IThatCapability _thatCapability = new ThatCapableEntity();
 
         public void DoThis()
         {
@@ -324,13 +321,13 @@
             get { return this._thisCapability.IsAvailable; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanging
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanging
         {
             add { this.IsAvailableChanging += value; }
             remove { this._thisCapability.IsAvailableChanging -= value; }
         }
 
-        event EventHandler<DataChangeEventArgs<bool>> ICapability.IsAvailableChanged
+        event EventHandler<DataChangeEventArgs<bool>>? ICapability.IsAvailableChanged
         {
             add { this.IsAvailableChanged += value; }
             remove { this.IsAvailableChanged -= value; }

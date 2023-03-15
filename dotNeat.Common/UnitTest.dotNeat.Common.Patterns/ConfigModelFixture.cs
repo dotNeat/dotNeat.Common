@@ -39,8 +39,7 @@ namespace UnitTest.dotNeat.Common.Patterns
 
         private static void PresentComponentsIDs(IComponent component, string indentation = "")
         {
-            IEntity entity = component as IEntity;
-            if(entity == null)
+            if(component is not IEntity entity)
             {
                 return;
             }
@@ -59,7 +58,7 @@ namespace UnitTest.dotNeat.Common.Patterns
         [TestMethod]
         public void BasicTest()
         {
-            AppConfig appConfig = new AppConfig();
+            AppConfig appConfig = new();
 
             Present(appConfig, "Defined Config");
             Console.WriteLine("Structure:");
@@ -68,7 +67,7 @@ namespace UnitTest.dotNeat.Common.Patterns
             Console.WriteLine();
             Trace.WriteLine(string.Empty);
 
-            var configExtension = new ConfigValue<Point>(SensorExtension.Location, new Point(200, 300));
+            var configExtension = new ConfigValue<Point>(SensorExtension.Location, new(200, 300));
             appConfig.Add(configExtension);
  
             Present(appConfig, "Extended Config");
@@ -82,7 +81,7 @@ namespace UnitTest.dotNeat.Common.Patterns
         [TestMethod]
         public void ShowChildComponentIDs()
         {
-            AppConfig appConfig = new AppConfig();
+            AppConfig appConfig = new();
 
             foreach(var id in appConfig.GetComponentIDs())
             {
@@ -94,7 +93,7 @@ namespace UnitTest.dotNeat.Common.Patterns
         [TestMethod]
         public void ShowComponentDefinitionStructure()
         {
-            AppConfig appConfig = new AppConfig();
+            AppConfig appConfig = new();
 
             PresentComponentsIDs(appConfig);
         }

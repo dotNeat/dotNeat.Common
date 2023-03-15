@@ -18,14 +18,14 @@
         {
         }
 
-        public ConfigValue(Enum id, TValue value) 
+        public ConfigValue(Enum id, TValue? value) 
             : base(id)
         {
             this.Value = value;
         }
 
 
-        public TValue Value {get;set;}
+        public TValue? Value {get;set;}
 
         protected override bool IsThisValid()
         {
@@ -39,7 +39,7 @@
 
         public override void AppendToStringBuilder(StringBuilder stringBuilder,string indentation)
         {
-            stringBuilder.AppendLine($"{indentation}{this.ID} : {this.Value.ToString()}");
+            stringBuilder.AppendLine($"{indentation}{this.ID} : {this.Value?.ToString() ?? string.Empty}");
         }
     }
 }
