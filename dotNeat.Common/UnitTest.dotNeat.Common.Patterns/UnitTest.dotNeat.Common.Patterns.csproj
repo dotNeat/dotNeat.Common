@@ -9,10 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
-    <PackageReference Include="coverlet.collector" Version="3.1.2"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 <PrivateAssets>all</PrivateAssets>
 </PackageReference>
   </ItemGroup>
@@ -21,11 +21,19 @@
     <None Remove="GoF\" />
     <None Remove="GoF\Structural\" />
     <None Remove="CapabilitiesPattern\" />
+    <None Remove="ValueObjectPattern\" />
+    <None Remove="ValueObjectPattern\Mocks\" />
+    <None Remove="EnumerationClassPattern\" />
+    <None Remove="EnumerationClassPattern\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GoF\" />
     <Folder Include="GoF\Structural\" />
     <Folder Include="CapabilitiesPattern\" />
+    <Folder Include="ValueObjectPattern\" />
+    <Folder Include="ValueObjectPattern\Mocks\" />
+    <Folder Include="EnumerationClassPattern\" />
+    <Folder Include="EnumerationClassPattern\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.Patterns\dotNeat.Common.Patterns.csproj" />

@@ -3,13 +3,25 @@
     using System;
     using System.Collections.Concurrent;
     using System.ComponentModel;
+    using System.Linq;
 
     public static class EnumUtil
     {
+        public static TEnum[] GetValues<TEnum>()
+            where TEnum : struct, Enum
+        {
+#if NETSTANDARD
+            TEnum[] enumMembers = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().ToArray();
+#else
+            TEnum[] enumMembers = Enum.GetValues<TEnum>();
+#endif
+            return enumMembers;
+        }
+
         public static TEnum[] GetEnumMembersList<TEnum>()
             where TEnum : struct, Enum
         {
-            TEnum[] enumMembers = Enum.GetValues<TEnum>();
+            TEnum[] enumMembers = EnumUtil.GetValues<TEnum>();
             return enumMembers;
         }
 
@@ -50,7 +62,7 @@
                 ConcurrentDictionary<Enum, string> newEnumDescrioptions =
                     enumDescriptionsCache.GetOrAdd(
                         enumType,
-                        new ConcurrentDictionary<Enum, string>(10, Enum.GetValues<TEnum>().Length)
+                        new ConcurrentDictionary<Enum, string>(10, EnumUtil.GetValues<TEnum>().Length)
                         );
 
                 string descr = newEnumDescrioptions.GetOrAdd(enumMember, GetDescription(enumMember));
