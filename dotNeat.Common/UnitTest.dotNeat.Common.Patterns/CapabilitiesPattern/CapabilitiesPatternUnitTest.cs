@@ -6,7 +6,6 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using dotNeat.Common.Patterns.CapabilitiesPattern;
     using global::dotNeat.Common.Patterns.CapabilitiesPattern;
     using global::dotNeat.Common.Patterns.EventsPattern;
 
@@ -27,7 +26,7 @@
             Assert.AreEqual(1, compositeEntityRoot.GetAllImplementedCapabilityTypes().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetAllCapabilityImplementations().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>().Length);
-            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0]);
+            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0] as Entity);
             Assert.AreEqual(0, compositeEntityRoot.GetImplementationsOf<IPttCapable>().Length);
 
             //Constructing child entity
@@ -37,7 +36,7 @@
             Assert.AreEqual(1, pttChildEntity.GetAllImplementedCapabilityTypes().Length);
             Assert.AreEqual(1, pttChildEntity.GetAllCapabilityImplementations().Length);
             Assert.AreEqual(1, pttChildEntity.GetImplementationsOf<IPttCapable>().Length);
-            Assert.AreSame(pttChildEntity, pttChildEntity.GetImplementationsOf<IPttCapable>()[0]);
+            Assert.AreSame(pttChildEntity, pttChildEntity.GetImplementationsOf<IPttCapable>()[0] as Entity);
             Assert.AreEqual(0, pttChildEntity.GetImplementationsOf<IStatusReportCapable>().Length);
 
             //Extending composite entity via child (IPttCapable) entity
@@ -48,13 +47,13 @@
             Assert.AreEqual(2, compositeEntityRoot.GetAllCapabilityImplementations().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetImplementationsOf<IPttCapable>().Length);
-            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0]);
-            Assert.AreSame(pttChildEntity, compositeEntityRoot.GetImplementationsOf<IPttCapable>()[0]);
+            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0] as Entity);
+            Assert.AreSame(pttChildEntity, compositeEntityRoot.GetImplementationsOf<IPttCapable>()[0] as Entity);
 
             //Discover the PTT capability and get reference to its implementation:
             IPttCapable[] pttImplementations = compositeEntityRoot.GetImplementationsOf<IPttCapable>();
             IPttCapable? ptt = pttImplementations.Length > 0 ? pttImplementations[0] : null;
-            Assert.AreSame(pttChildEntity, ptt);
+            Assert.AreSame(pttChildEntity, ptt as Entity);
 
             //Remove the child (IPttCapable) entity
             Trace.WriteLine("*** Remove the child (IPttCapable) entity");
@@ -63,7 +62,7 @@
             Assert.AreEqual(1, compositeEntityRoot.GetAllImplementedCapabilityTypes().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetAllCapabilityImplementations().Length);
             Assert.AreEqual(1, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>().Length);
-            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0]);
+            Assert.AreSame(compositeEntityRoot, compositeEntityRoot.GetImplementationsOf<IStatusReportCapable>()[0] as Entity);
             Assert.AreEqual(0, compositeEntityRoot.GetImplementationsOf<IPttCapable>().Length);
 
             //More complex composition:
