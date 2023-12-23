@@ -6,7 +6,7 @@
     public class ExpressionCriteria<TEntity> 
         : CompositeCriteria<TEntity>
     {
-        private readonly Func<TEntity, bool> expression;
+        private readonly Func<TEntity, bool> _expression;
 
         public ExpressionCriteria(
             Func<TEntity, bool> expression 
@@ -14,12 +14,12 @@
         {
             Debug.Assert(expression != null);
 
-            this.expression = expression;
+            this._expression = expression;
         }
 
         public override bool IsSatisfiedBy(TEntity entity)
         {
-            return expression(entity);
+            return this._expression(entity);
         }
     }
 }

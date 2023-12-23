@@ -5,7 +5,7 @@
         bool IsSatisfiedBy(object entity);
     }
 
-    public interface ICriteria<TEntity>
+    public interface ICriteria<in TEntity>
         : ICriteria
     {
         bool IsSatisfiedBy(TEntity entity);
