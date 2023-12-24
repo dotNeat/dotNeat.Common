@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
@@ -30,12 +30,11 @@
     <Folder Include="GoF\" />
     <Folder Include="GoF\Structural\" />
     <Folder Include="CapabilitiesPattern\" />
-    <Folder Include="ValueObjectPattern\" />
-    <Folder Include="ValueObjectPattern\Mocks\" />
     <Folder Include="EnumerationClassPattern\" />
     <Folder Include="EnumerationClassPattern\Mocks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.Patterns\dotNeat.Common.Patterns.csproj" />
+    <ProjectReference Include="..\dotNeat.Common.Utilities\dotNeat.Common.Utilities.csproj" />
   </ItemGroup>
 </Project>

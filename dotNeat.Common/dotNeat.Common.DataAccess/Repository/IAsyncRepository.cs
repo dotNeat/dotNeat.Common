@@ -1,6 +1,6 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository
 {
-    using dotNeat.Common.DataAccess.Entity;
+    using Entity;
 
     using System;
     using System.Threading.Tasks;

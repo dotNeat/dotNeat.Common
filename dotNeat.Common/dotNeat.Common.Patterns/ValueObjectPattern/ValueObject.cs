@@ -1,8 +1,11 @@
 ﻿namespace dotNeat.Common.Patterns.ValueObjectPattern
 {
-    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
+    using Utilities;
+    using Utilities.Diagnostics;
 
     public abstract class ValueObject
     {
@@ -28,12 +31,18 @@
             return !(EqualOperator(left, right));
         }
 
-        protected abstract IEnumerable<object> GetEqualityComponents();
+        private object[] GetEqualityComponents()
+        {
+            object[] components = DoGetEqualityComponents();
+            AssertConcreteImplementationInvariants(components);
+            return components;
+        }
+        protected abstract object[] DoGetEqualityComponents();
 
         public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
-            {
+            { 
                 return false;
             }
 
@@ -45,7 +54,7 @@
         public override int GetHashCode()
         {
             return GetEqualityComponents()
-                .Select(x => x != null ? x.GetHashCode() : 0)
+                .Select(x => x?.GetHashCode() ?? 0)
                 .Aggregate((x, y) => x ^ y);
         }
 
@@ -57,6 +66,39 @@
         public static bool operator !=(ValueObject one, ValueObject two)
         {
             return NotEqualOperator(one, two);
+        }
+
+        [Conditional("DEBUG")]
+        private void AssertConcreteImplementationInvariants(object[] equalityComponents)
+        {
+            PropertyInfo[] propertyInfos = ReflectionUtil.GetAllPublicInstanceProperties(this.GetType());
+
+            if (propertyInfos.Length != equalityComponents.Length)
+                throw new TypeImplementationException(
+                    $"All the public properties are expected to be returned by {nameof(this.DoGetEqualityComponents)} method."
+                    );
+
+            if (propertyInfos
+                    .Select(x => x.GetValue(this)?.GetHashCode() ?? 0)
+                    .Aggregate((x, y) => x ^ y)
+                != equalityComponents
+                    .Select(x => x.GetHashCode())
+                    .Aggregate((x, y) => x ^ y)
+                )
+                throw new TypeImplementationException(
+                    $"The HashCode calculation based on public property values reflection is expected to match to the {nameof(ValueObject)}'s {this.GetHashCode()} method call result."
+                    );
+
+            //Debug.Assert(
+            //    propertyInfos.Length == this.GetEqualityComponents().Count(),
+            //    $"All the public properties are expected to be returned by {this.GetEqualityComponents()} method."
+            //);
+
+            //Debug.Assert(
+            //    propertyInfos.Select(x => x.GetValue(this)?.GetHashCode() ?? 0).Aggregate((x, y) => x ^ y) == this.GetHashCode(),
+            //    $"The HashCode calculation based on public property values reflection is expected to match to the {nameof(ValueObject)}'s {this.GetHashCode()} method call result."
+            //    );
+
         }
     }
 }

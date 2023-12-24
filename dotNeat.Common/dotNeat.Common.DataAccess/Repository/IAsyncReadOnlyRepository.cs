@@ -1,8 +1,8 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository
 {
-    using dotNeat.Common.DataAccess.Criteria;
-    using dotNeat.Common.DataAccess.Entity;
-    using dotNeat.Common.DataAccess.Specification;
+    using Criteria;
+    using Entity;
+    using Specification;
 
     using System;
     using System.Collections.Generic;

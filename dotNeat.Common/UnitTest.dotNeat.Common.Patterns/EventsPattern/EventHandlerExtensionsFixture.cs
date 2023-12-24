@@ -2,8 +2,7 @@
 
 namespace UnitTest.dotNeat.Common.Patterns.EventsPattern
 {
-    using dotNeat.Common.Patterns.EventsPattern;
-
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]

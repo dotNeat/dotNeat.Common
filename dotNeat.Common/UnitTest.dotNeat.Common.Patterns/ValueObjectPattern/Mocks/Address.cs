@@ -1,5 +1,6 @@
 ﻿namespace UnitTest.dotNeat.Common.Patterns.ValueObjectPattern.Mocks
 {
+    using System;
     using System.Collections.Generic;
     using global::dotNeat.Common.Patterns.ValueObjectPattern;
 
@@ -27,14 +28,15 @@
             ZipCode = zipcode;
         }
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        protected override object[] DoGetEqualityComponents()
         {
-            // Using a yield return statement to return each element one at a time
-            yield return Street;
-            yield return City;
-            yield return State;
-            yield return Country;
-            yield return ZipCode;
+            return [
+                Street, 
+                City, 
+                State, 
+                Country, 
+                ZipCode
+            ]; 
         }
     }
 }

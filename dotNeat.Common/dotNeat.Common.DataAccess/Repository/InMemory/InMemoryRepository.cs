@@ -1,6 +1,6 @@
 ﻿namespace dotNeat.Common.DataAccess.Repository.InMemory
 {
-    using dotNeat.Common.DataAccess.Entity;
+    using Entity;
 
     using System;
     using System.Collections.Generic;
@@ -26,10 +26,7 @@
         {
             get
             {
-                if (_asyncRepo == null)
-                {
-                    _asyncRepo = new RepositoryAsyncWrapper<TEntity, TEntityId>(this);
-                }
+                _asyncRepo ??= new RepositoryAsyncWrapper<TEntity, TEntityId>(this);
                 return _asyncRepo;
             }
         }
@@ -85,7 +82,7 @@
 
         public IRepository<TEntity, TEntityId> Delete(TEntityId id)
         {
-            if (!_entities.TryRemove(id, out TEntity? entity))
+            if (!_entities.TryRemove(id, out _))
             {
                 Report($"An attempt to delete non-existing entry with ID = {id}!", true);
             }
