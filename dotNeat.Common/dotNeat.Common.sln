@@ -17,11 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.Patterns", "UnitTest.dotNeat.Common.Patterns\UnitTest.dotNeat.Common.Patterns.csproj", "{A35C705A-CE53-4F23-A395-D71437B4BA57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNeat.Common.DataAccess.EFCore", "dotNeat.Common.DataAccess.EFCore\dotNeat.Common.DataAccess.EFCore.csproj", "{4D2A005E-2C6A-496E-9DED-6A7912F4F1F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNeat.Common.DataAccess.EFCore", "dotNeat.Common.DataAccess.EFCore\dotNeat.Common.DataAccess.EFCore.csproj", "{4D2A005E-2C6A-496E-9DED-6A7912F4F1F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNeat.Common.Utilities", "dotNeat.Common.Utilities\dotNeat.Common.Utilities.csproj", "{EC53870E-7F41-477C-ACBE-B444D42CB4CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNeat.Common.Utilities", "dotNeat.Common.Utilities\dotNeat.Common.Utilities.csproj", "{EC53870E-7F41-477C-ACBE-B444D42CB4CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.dotNeat.Common.Utilities", "UnitTest.dotNeat.Common.Utilities\UnitTest.dotNeat.Common.Utilities.csproj", "{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.Utilities", "UnitTest.dotNeat.Common.Utilities\UnitTest.dotNeat.Common.Utilities.csproj", "{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNeat.Common.ViewModel", "dotNeat.Common.ViewModel\dotNeat.Common.ViewModel.csproj", "{9F3968FB-89D7-4F13-A645-E19BA1270DC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.dotNeat.Common.ViewModel", "UnitTest.dotNeat.Common.ViewModel\UnitTest.dotNeat.Common.ViewModel.csproj", "{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,14 @@ Global
 		{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F3968FB-89D7-4F13-A645-E19BA1270DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F3968FB-89D7-4F13-A645-E19BA1270DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F3968FB-89D7-4F13-A645-E19BA1270DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F3968FB-89D7-4F13-A645-E19BA1270DC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,7 @@ Global
 		{44FE03D4-0695-4835-BF1C-9D08B4CC2B83} = {42521B9B-CA4E-4309-BD02-372A063FD436}
 		{A35C705A-CE53-4F23-A395-D71437B4BA57} = {42521B9B-CA4E-4309-BD02-372A063FD436}
 		{6AA18D8D-1E89-4BE0-9D47-7AF078EA2A71} = {42521B9B-CA4E-4309-BD02-372A063FD436}
+		{BFEE405C-8B4C-4204-A73B-6BF8F16D790C} = {42521B9B-CA4E-4309-BD02-372A063FD436}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90B452BE-EC49-4EF7-9FE7-051960771D1A}
