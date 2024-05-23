@@ -194,10 +194,15 @@
         , ICapable
         , ICapability
     {
+#if NET5_0_OR_GREATER
         private const int initialComponentsCapacity = 3;
 
         private readonly HashSet<CapabilitiesHost> _components = 
-            new(initialComponentsCapacity);
+            new HashSet<CapabilitiesHost>(initialComponentsCapacity);
+#else
+        private readonly HashSet<CapabilitiesHost> _components = 
+            new HashSet<CapabilitiesHost>();
+#endif
 
         public override IEnumerable<CapabilitiesHost> GetComponents()
         {
@@ -216,8 +221,7 @@
 
             foreach (var capability in component._capabilityImplementationsByCapability.Keys)
             {
-                List<ICapability>? capabilityImplementations = null;
-                if (!this._capabilityImplementationsByCapability.TryGetValue(capability, out capabilityImplementations))
+                if (!this._capabilityImplementationsByCapability.TryGetValue(capability, out List<ICapability>? capabilityImplementations))
                 {
                     capabilityImplementations = new List<ICapability>();
                     this._capabilityImplementationsByCapability.Add(capability, capabilityImplementations);

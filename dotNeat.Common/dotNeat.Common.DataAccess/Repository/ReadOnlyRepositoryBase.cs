@@ -70,8 +70,14 @@
 
         protected ulong CalculateTotalPages(ulong itemsCount, ulong itemsPerPage)
         {
+#if NET8_0_OR_GREATER
             var result = Math.DivRem(itemsCount, itemsPerPage);
             return result.Quotient + (result.Remainder > 0 ? 1UL : 0);
+#else
+            long quotient = Math.DivRem(Convert.ToInt64(itemsCount), Convert.ToInt64(itemsPerPage), out long remainder);
+            return Convert.ToUInt64(quotient) + (remainder > 0 ? 1UL : 0UL);
+#endif
+            
         }
 
         protected void Report(string message, bool shouldAssert = false)
@@ -84,6 +90,6 @@
             }
         }
 
-        #endregion protected
+#endregion protected
     }
 }

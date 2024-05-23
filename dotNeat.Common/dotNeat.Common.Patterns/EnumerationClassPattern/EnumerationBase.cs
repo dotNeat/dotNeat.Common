@@ -57,7 +57,16 @@
 
         public override int GetHashCode()
         {
+#if NET5_0_OR_GREATER
             return HashCode.Combine(Name, Id);
+#else
+            var builder = new HashCode();
+            builder.Add(Name);
+            builder.Add(Id);
+
+            return builder.ToHashCode();
+
+#endif
         }
     }
 }

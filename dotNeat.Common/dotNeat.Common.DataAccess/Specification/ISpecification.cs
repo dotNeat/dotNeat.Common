@@ -1,4 +1,6 @@
-﻿namespace dotNeat.Common.DataAccess.Specification
+﻿using System.Diagnostics;
+
+namespace dotNeat.Common.DataAccess.Specification
 {
     using dotNeat.Common.DataAccess.Criteria;
 
@@ -13,8 +15,10 @@
         }
 
         Outcome ExpectedOutcome { get; }
+
         bool UseSplitQuery { get; }
     }
+    
     public interface ISpecification<TEntity>
         : ISpecification
     {

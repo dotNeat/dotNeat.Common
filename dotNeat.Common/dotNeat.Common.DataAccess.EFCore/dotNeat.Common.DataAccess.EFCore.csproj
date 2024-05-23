@@ -1,18 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
+		<ProjectReference Include="..\dotNeat.Common.DataAccess\dotNeat.Common.DataAccess.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-    <ProjectReference Include="..\dotNeat.Common.DataAccess\dotNeat.Common.DataAccess.csproj" />
-  </ItemGroup>
+	<Choose>
+		<When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+			<ItemGroup Label="EF Core for .NET Standard 2.0">
+				<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.32" />
+				<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.32" />
+			</ItemGroup>
+		</When>
+		<When Condition="'$(TargetFramework)' == 'netstandard2.1'">
+			<ItemGroup Label="EF Core for .NET Standard 2.1">
+				<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+				<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.17" />
+			</ItemGroup>
+		</When>
+		<When Condition="'$(TargetFramework)' == 'net6.0'">
+			<ItemGroup Label="EF Core for .NET6.0">
+				<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.30" />
+				<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.30" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup Label="Latest EF Core">
+				<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
+				<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.5" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
 </Project>

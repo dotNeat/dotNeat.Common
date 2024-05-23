@@ -18,7 +18,10 @@
 
             if (specification.UseSplitQuery)
             {
+#if NETSTANDARD2_1_OR_GREATER
+
                 queryable = queryable.AsSplitQuery();
+#endif
             }
 
             if (specification.ExtraDataInclusionSpec is not null

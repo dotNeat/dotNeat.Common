@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
@@ -21,6 +21,9 @@
     <Folder Include="EventsPattern\" />
     <Folder Include="ClassificationPattern\" />
     <Folder Include="ValueObjectPattern\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Condition="'$(TargetFramework)' == 'netstandard2.0'" Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.Utilities\dotNeat.Common.Utilities.csproj" />
