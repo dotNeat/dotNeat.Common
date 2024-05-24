@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="data">The data.</param>
         public TreeNode(T data)
-            : this(data, new T[0])
+            : this(data, Array.Empty<T>())
         {
         }
 

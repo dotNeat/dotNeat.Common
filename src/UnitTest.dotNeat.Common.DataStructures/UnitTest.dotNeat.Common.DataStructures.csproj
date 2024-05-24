@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
 
-	<Import Project="..\MSBuild.UnitTest.Global.csproj" />
+	<Import Project="..\UnitTest.Build.Global.csproj" />
 
 	<ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.DataStructures\dotNeat.Common.DataStructures.csproj" />

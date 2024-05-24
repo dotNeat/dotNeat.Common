@@ -101,7 +101,7 @@
 
         public IEnumerable<Type> ClassifierTypes { get { return this._classifierTypes; } }
 
-        public string ID { get; private set; }
+        public string ID { get; }
 
         object IIdentifiable.ID { get { return this.ID; } }
 

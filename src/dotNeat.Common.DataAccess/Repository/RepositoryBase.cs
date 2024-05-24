@@ -10,7 +10,6 @@
         where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
-        private readonly Guid _repoInstanceId = Guid.NewGuid();
 
         private IAsyncRepository<TEntity, TEntityId>? _asyncRepo = null;
 

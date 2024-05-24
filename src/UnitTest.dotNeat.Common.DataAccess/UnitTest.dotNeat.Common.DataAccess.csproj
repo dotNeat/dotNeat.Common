@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\MSBuild.UnitTest.Global.csproj" />
+	<Import Project="..\UnitTest.Build.Global.csproj" />
 
 	<ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.DataAccess\dotNeat.Common.DataAccess.csproj" />

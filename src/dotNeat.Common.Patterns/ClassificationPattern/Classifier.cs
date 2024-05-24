@@ -29,11 +29,11 @@
             this.ID = GenerateClassifierID(classifierObject);
         }
 
-        public object ClassifierObject { get; private set; }
+        public object ClassifierObject { get; }
 
-        public Type ClassifierType { get; private set; }
+        public Type ClassifierType { get; }
 
-        public string ID { get; private set; }
+        public string ID { get; }
 
         object IIdentifiable.ID { get { return this.ID; } }
 

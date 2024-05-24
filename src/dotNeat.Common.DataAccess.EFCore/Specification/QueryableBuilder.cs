@@ -1,11 +1,11 @@
-﻿namespace dotNeat.Common.DataAccess.Specification
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using dotNeat.Common.DataAccess.Specification;
+using Microsoft.EntityFrameworkCore;
+
+namespace dotNeat.Common.DataAccess.EFCore.Specification
 {
-    using Microsoft.EntityFrameworkCore;
-
-    using System;
-    using System.Diagnostics;
-    using System.Linq;
-
     public static class QueryableBuilder
     {
         public static IQueryable<TEntity> BuildQueryable<TEntity>(
@@ -38,13 +38,13 @@
             {
                 switch (specification.ExpectedOutcome)
                 {
-                    case ISpecification<TEntity>.Outcome.OneOrNone:
-                    case ISpecification<TEntity>.Outcome.One:
+                    case ISpecification.Outcome.OneOrNone:
+                    case ISpecification.Outcome.One:
                         queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
                         // no need to continue further with sorting or paging the single or no result:
                         return queryable;
-                    case ISpecification<TEntity>.Outcome.Many:
-                    case ISpecification<TEntity>.Outcome.Undetermined:
+                    case ISpecification.Outcome.Many:
+                    case ISpecification.Outcome.Undetermined:
                         queryable = queryable.Where(i => specification.DataFilterSpec.IsSatisfiedBy(i));
                         break;
                     default: 

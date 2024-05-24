@@ -1,22 +1,21 @@
-﻿namespace dotNeat.Common.DataAccess.Repository.EFCore
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using dotNeat.Common.DataAccess.Criteria;
+using dotNeat.Common.DataAccess.EFCore.Specification;
+using dotNeat.Common.DataAccess.Entity;
+using dotNeat.Common.DataAccess.Repository;
+using dotNeat.Common.DataAccess.Specification;
+using Microsoft.EntityFrameworkCore;
+
+namespace dotNeat.Common.DataAccess.EFCore.Repository
 {
-    using dotNeat.Common.DataAccess.Criteria;
-    using dotNeat.Common.DataAccess.Entity;
-    using dotNeat.Common.DataAccess.Specification;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
     public class ReadOnlyEFCoreRepository<TEntity, TEntityId>
         : ReadOnlyRepositoryBase<TEntity, TEntityId>
         where TEntity : class, IEntity<TEntityId>
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
-        private readonly Guid _repoInstanceId;
         internal readonly DbContext _dbContext;
         internal readonly DbSet<TEntity> _dbSet;
 
@@ -24,7 +23,6 @@
 		{
             Debug.Assert(dbContext is not null, $"{nameof(dbContext)} must not be null!");
 
-            _repoInstanceId = Guid.NewGuid();
             _dbContext = dbContext;
             _dbSet = dbContext.Set<TEntity>();
 

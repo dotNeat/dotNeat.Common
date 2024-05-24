@@ -1,11 +1,10 @@
-﻿namespace dotNeat.Common.DataAccess.Repository.EFCore
+﻿using System;
+using dotNeat.Common.DataAccess.Entity;
+using dotNeat.Common.DataAccess.Repository;
+using Microsoft.EntityFrameworkCore;
+
+namespace dotNeat.Common.DataAccess.EFCore.Repository
 {
-    using dotNeat.Common.DataAccess.Entity;
-
-    using Microsoft.EntityFrameworkCore;
-
-    using System;
-
     public class EFCoreRepository<TEntity, TEntityId>
         : ReadOnlyEFCoreRepository<TEntity, TEntityId>
         , IRepository<TEntity, TEntityId>

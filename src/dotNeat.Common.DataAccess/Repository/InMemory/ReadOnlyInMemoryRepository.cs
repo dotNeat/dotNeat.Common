@@ -65,11 +65,15 @@
 
         public override TEntity? GetEntity(TEntityId id)
         {
+#if NETSTANDARD2_0
             if (_entities.TryGetValue(id, out TEntity? value))
             {
                 return value;
             }
             return default;
+#else
+            return _entities.GetValueOrDefault(id);
+#endif
         }
 
         public override IReadOnlyCollection<TEntity> GetEntities()
@@ -102,7 +106,7 @@
             return entities.ToArray();
         }
 
-        #endregion base overrides
+#endregion base overrides
 
         #region private 
 

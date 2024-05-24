@@ -29,8 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.Vie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3C36254D-C642-4FCE-BB83-0F7E2B45C773}"
 	ProjectSection(SolutionItems) = preProject
-		MSBuild.Product.Global.csproj = MSBuild.Product.Global.csproj
-		MSBuild.UnitTest.Global.csproj = MSBuild.UnitTest.Global.csproj
+		Directory.Build.props = Directory.Build.props
+		Product.Build.Global.csproj = Product.Build.Global.csproj
+		UnitTest.Build.Global.csproj = UnitTest.Build.Global.csproj
 	EndProjectSection
 EndProject
 Global

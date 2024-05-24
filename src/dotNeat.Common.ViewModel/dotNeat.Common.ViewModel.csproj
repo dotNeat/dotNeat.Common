@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\MSBuild.Product.Global.csproj" />
+	<Import Project="..\Product.Build.Global.csproj" />
 
 </Project>

@@ -15,6 +15,7 @@
         where TEntityId : IEquatable<TEntityId>, IComparable
     {
         private IAsyncReadOnlyRepository<TEntity, TEntityId>? _asyncRepo = null;
+        private readonly Guid _repositoryInstanceId = Guid.NewGuid();
 
         #region IReadOnlyRepository
 
@@ -26,6 +27,8 @@
                 return _asyncRepo;
             }
         }
+
+        public Guid RepositoryInstanceId => _repositoryInstanceId;
 
         public abstract bool ContainsEntity(TEntityId id);
         public abstract ulong CountEntities();

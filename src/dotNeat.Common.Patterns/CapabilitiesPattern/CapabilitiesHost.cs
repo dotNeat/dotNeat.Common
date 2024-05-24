@@ -23,7 +23,7 @@
         protected internal readonly Dictionary<Type, List<ICapability>> _capabilityImplementationsByCapability = 
             new Dictionary<Type, List<ICapability>>();
 
-        public CapabilitiesHost(CompositeCapabilitiesHost? container = null)
+        protected CapabilitiesHost(CompositeCapabilitiesHost? container = null)
         {
             this._container = container;
 
