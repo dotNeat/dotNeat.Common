@@ -1,2 +1,2 @@
-# dotNeat.Common
-Commonly used and useful helper utilities and types.
+Add third-party libraries used by the codebase here...
+Content of this folder is expected to be shipped with the actual product under development. 
