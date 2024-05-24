@@ -25,7 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.Uti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNeat.Common.ViewModel", "dotNeat.Common.ViewModel\dotNeat.Common.ViewModel.csproj", "{9F3968FB-89D7-4F13-A645-E19BA1270DC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.dotNeat.Common.ViewModel", "UnitTest.dotNeat.Common.ViewModel\UnitTest.dotNeat.Common.ViewModel.csproj", "{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest.dotNeat.Common.ViewModel", "UnitTest.dotNeat.Common.ViewModel\UnitTest.dotNeat.Common.ViewModel.csproj", "{BFEE405C-8B4C-4204-A73B-6BF8F16D790C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{3C36254D-C642-4FCE-BB83-0F7E2B45C773}"
+	ProjectSection(SolutionItems) = preProject
+		MSBuild.Product.Global.csproj = MSBuild.Product.Global.csproj
+		MSBuild.UnitTest.Global.csproj = MSBuild.UnitTest.Global.csproj
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

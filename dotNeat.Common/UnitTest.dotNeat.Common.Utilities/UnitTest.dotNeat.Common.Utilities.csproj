@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+	<Import Project="..\MSBuild.UnitTest.Global.csproj" />
+
+    <!--
+	<PropertyGroup>
 	  <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
@@ -18,6 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+	-->
 
   <ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.Utilities\dotNeat.Common.Utilities.csproj" />

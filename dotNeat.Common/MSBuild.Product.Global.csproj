@@ -1,0 +1,148 @@
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+
+	<PropertyGroup Label="Development Environmrnt and Toolset Settings">
+
+		<!-- REFERENCE: https://docs.microsoft.com/en-us/dotnet/standard/frameworks -->
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;net9.0</TargetFrameworks>
+		<CheckEolTargetFramework>true</CheckEolTargetFramework>
+
+		<LangVersion>latest</LangVersion>
+
+		<Nullable>enable</Nullable>
+
+		<ImplicitUsings>disable</ImplicitUsings>
+
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AnalysisMode>Default</AnalysisMode>
+		<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+		
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>UnitTest.$(AssemblyName)</_Parameter1>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>UnitTest.Common</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<PropertyGroup Label="Product Release Essential Info">
+		<ProductReleaseVersion>0.0.1</ProductReleaseVersion>
+		<!-- Required: major.minor.patch -->
+		<ProductReleaseVersionSuffix></ProductReleaseVersionSuffix>
+		<!-- Optional. Examples: alpha, beta, preview, RC etc. -->
+		<ProductLtsReleaseFlag>false</ProductLtsReleaseFlag>
+		<!-- Optional. Examples: false (default) or true. -->
+		<ProductReleaseNotes>
+			<!-- Required -->
+
+			feat:     A new feature
+			fix:      A bug fix
+			docs:     Documentation only changes
+			style:    Changes that do not affect the meaning of the code
+			refactor: A code change that neither a bug fix nor a new feature
+			perf:     A code change that improves performance
+			test:     Adding or modifying unit test code
+			chore:    Changes to the build process or auxiliary tools and libraries such as documentation generation, etc.
+
+		</ProductReleaseNotes>
+
+		<!--
+    Release Notes Tagging Conventions:
+    ==================================
+
+    1.  Every entry within the PackageReleaseNotes element is expected to be started with
+        at least one of the tags listed:
+
+        feat:     A new feature
+        fix:      A bug fix
+        docs:     Documentation only changes
+        style:    Changes that do not affect the meaning of the code
+        refactor: A code change that neither a bug fix nor a new feature
+        perf:     A code change that improves performance
+        test:     Adding or modifying unit test code
+        chore:    Changes to the build process or auxiliary tools and libraries such as documentation generation, etc.
+
+    2.  Every entry within the PackageReleaseNotes element is expected to be tagged with
+        EITHER
+        "resolve #GITHUB_ISSUE_NUMBER:" - meaning completely addresses the GitHub issue
+        OR
+        "ref #GITHUB_ISSUE_NUMBER:" - meaning relevant to the GitHub issue
+        depending on what is more appropriate in each case.
+    -->
+
+	</PropertyGroup>
+
+
+	<PropertyGroup Label="Common Product Assembly Info and NuGet Packaging Info" >
+
+		<PackageReleaseNotes>$(ProductReleaseNotes)</PackageReleaseNotes>
+		<VersionPrefix>$(ProductReleaseVersion)</VersionPrefix>
+		<VersionSuffix>$(ProductReleaseVersionSuffix)</VersionSuffix>
+		<Company>Wide Spectrum Computing LLC</Company>
+		<Owners>Wide Spectrum Computing LLC</Owners>
+		<Authors>Wide Spectrum Computing LLC</Authors>
+		<Title>dotNeat Common SDK</Title>
+		<Product>dotNeat.Common</Product>
+		<Description>The dotNeat Common SDK is a treasure chest of highly reusable, unit-tested code blocks aiding in a rapid application development process.</Description>
+		<CurrentYear>$([System.DateTime]::Now.ToString(yyyy))</CurrentYear>
+		<Copyright>Copyright (c) 2017-$(CurrentYear) Wide Spectrum Computing LLC</Copyright>
+		<RepositoryUrl>https://github.com/dotNeat/dotNeat.Common.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>dotNeat;common;code-blocks;SDK</PackageTags>
+		<PackageProjectUrl>https://github.com/dotNeat/dotNeat.Common</PackageProjectUrl>
+		<PackageIcon>dotNeat-logo.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup
+	  Label="SDK Common Assembly Info and NuGet Packaging Info for non-LTS releases"
+	  Condition="'$(ProductLtsReleaseFlag)'=='true'">
+		<InformationalVersion>LTS-$(ProductReleaseVersion)-$(ProductReleaseVersionSuffix)</InformationalVersion>
+		<ProductVersion>LTS-$(ProductReleaseVersion)-$(ProductReleaseVersionSuffix)</ProductVersion>
+		<Product>LTS $(Product)</Product>
+		<ProductName>LTS $(ProductName)</ProductName>
+		<PackageId>LTS.$(AssemblyName)</PackageId>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(ProductLtsReleaseFlag)'=='false'">
+		</When>
+	</Choose>
+
+	<ItemGroup>
+		<None Include="..\dotNeat-logo.png" Pack="true" Visible="false" PackagePath=""/>
+	</ItemGroup>
+
+	<ItemGroup Label=".NET Global References">
+		<!--ADD here-->
+	</ItemGroup>
+
+	<ItemGroup Label="Project References">
+		<!--ADD here-->
+	</ItemGroup>
+
+	<!--
+	<ItemGroup Label="Package References">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.30.0.37606">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	-->
+
+	<!--REFERENCES:
+  https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props
+
+  -->
+</Project>

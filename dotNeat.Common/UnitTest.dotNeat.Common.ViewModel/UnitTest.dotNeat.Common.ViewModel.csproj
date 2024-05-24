@@ -1,22 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
-		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
+	<Import Project="..\MSBuild.UnitTest.Global.csproj" />
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
-    <PackageReference Include="coverlet.collector" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+	<ItemGroup>
     <ProjectReference Include="..\dotNeat.Common.ViewModel\dotNeat.Common.ViewModel.csproj" />
   </ItemGroup>
 
